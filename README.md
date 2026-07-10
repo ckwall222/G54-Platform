@@ -67,7 +67,7 @@ G54-Platform/
 ## Design Assets
 
 Wireframes, mockups, and interactive prototypes are maintained in **Figma**.  
-Link: *(to be added after Figma project creation)*
+Link: https://www.figma.com/files/team/1349050049859610789/project/213386079
 
 ---
 
