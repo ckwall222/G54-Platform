@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports &amp; Analytics — G54 Platform</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Report library cards */
+    .report-library-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .report-card {
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
+      padding: 18px; display: flex; flex-direction: column; gap: 6px;
+    }
+    .report-card-icon { font-size: 28px; margin-bottom: 4px; }
+    .report-card-name { font-weight: 700; font-size: 15px; color: #1e293b; }
+    .report-card-desc { font-size: 12px; color: #64748b; flex: 1; }
+    .report-card-meta { font-size: 11px; color: #94a3b8; }
+    .report-card-actions { display: flex; gap: 8px; margin-top: 8px; }
+
+    /* Bar charts (CSS-only placeholder) */
+    .chart-placeholder {
+      background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px;
+      padding: 16px; text-align: center; color: #94a3b8; font-size: 13px;
+      min-height: 140px; display: flex; align-items: flex-end; justify-content: space-around;
+      gap: 6px;
+    }
+    .bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+    .bar { width: 100%; background: #3b82f6; border-radius: 4px 4px 0 0; }
+    .bar-label { font-size: 10px; color: #64748b; }
+    .chart-title { font-size: 12px; font-weight: 600; color: #475569; margin-bottom: 8px; }
+
+    /* Funnel */
+    .funnel { display: flex; flex-direction: column; gap: 6px; }
+    .funnel-stage {
+      display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+      border-radius: 6px; font-size: 13px;
+    }
+    .funnel-stage .funnel-label { flex: 1; font-weight: 600; }
+    .funnel-stage .funnel-count { font-weight: 700; font-size: 15px; }
+    .funnel-stage .funnel-value { color: #64748b; font-size: 12px; }
+    .funnel-bar { height: 6px; background: #e2e8f0; border-radius: 3px; flex: 2; }
+    .funnel-bar-fill { height: 100%; border-radius: 3px; background: #3b82f6; }
+
+    /* Progress bars */
+    .progress-row { margin-bottom: 12px; }
+    .progress-label-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+    .progress-track { background: #e2e8f0; border-radius: 4px; height: 10px; }
+    .progress-fill { height: 100%; border-radius: 4px; background: #3b82f6; }
+    .progress-fill.high { background: #f59e0b; }
+
+    /* Report builder */
+    .builder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .field-list { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; min-height: 200px; background: #f8fafc; }
+    .field-item {
+      padding: 6px 10px; background: #fff; border: 1px solid #e2e8f0; border-radius: 5px;
+      margin-bottom: 6px; font-size: 13px; cursor: grab; display: flex;
+      align-items: center; gap: 8px;
+    }
+    .field-item::before { content: '⣿'; color: #d1d5db; font-size: 12px; }
+    .condition-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+    .condition-row select, .condition-row input { flex: 1; padding: 7px 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; }
+    .condition-row .remove-btn { background: none; border: none; color: #dc2626; font-size: 16px; cursor: pointer; padding: 0 6px; }
+  </style>
+</head>
+<body class="app-layout">
+
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="logo">G54 Platform</div>
+    <div class="client">Great Mountain West</div>
+  </div>
+  <div class="sidebar-section"><a href="index.html">⊞ Dashboard</a></div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Customer</div>
+    <a href="crm.html">👥 CRM</a>
+    <a href="sales.html">🏷 Sales</a>
+    <a href="ecommerce.html">🛒 eCommerce</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Finance</div>
+    <a href="accounting.html">📒 Accounting</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Operations</div>
+    <a href="inventory.html">📦 Inventory</a>
+    <a href="pos.html">🖥 Point of Sale</a>
+    <a href="jobs.html">🏭 Jobs &amp; Production</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Intelligence</div>
+    <a href="reports.html" class="active">📈 Reports</a>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">System</div>
+    <a href="admin.html">⚙ Administration</a>
+  </div>
+  <div class="sidebar-footer">CW · Christopher Wall</div>
+</aside>
+
+<div class="main-area">
+  <header class="topbar">
+    <div class="topbar-left"><span class="breadcrumb">Intelligence / <b>Reports &amp; Analytics</b></span></div>
+    <div class="topbar-right">
+      <div class="topbar-icon">🔔<span class="notif-dot"></span></div>
+      <div class="topbar-icon">❓</div>
+      <div class="user-chip"><div class="avatar">CW</div><span class="user-name">Christopher Wall</span></div>
+    </div>
+  </header>
+
+  <div class="page-content">
+    <div class="page-header">
+      <h1 class="page-title">Reports &amp; Analytics</h1>
+      <div class="page-actions">
+        <select class="filter-select"><option>This Month</option><option>Last Month</option><option>This Quarter</option><option>YTD</option><option>Custom Range</option></select>
+        <button class="btn btn-secondary">⬇ Export</button>
+        <button class="btn btn-primary">+ New Report</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="dashboards">Dashboards</button>
+      <button class="tab" data-tab="library">Report Library</button>
+      <button class="tab" data-tab="custom">Custom Report</button>
+      <button class="tab" data-tab="scheduled">Scheduled</button>
+    </div>
+
+    <!-- TAB: DASHBOARDS -->
+    <div class="tab-content active" id="tab-dashboards">
+
+      <!-- Finance Dashboard -->
+      <div class="section-header">Finance Dashboard</div>
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">Revenue MTD</div>
+          <div class="kpi-value">$184,230</div>
+          <div class="kpi-sub trend-up">↑ 9.2% vs last month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Gross Margin</div>
+          <div class="kpi-value">42.8%</div>
+          <div class="kpi-sub trend-up">↑ 1.4 pts vs last month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Net Income MTD</div>
+          <div class="kpi-value">$22,418</div>
+          <div class="kpi-sub trend-up">↑ 4.1% vs last month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Cash Flow</div>
+          <div class="kpi-value" style="color:#16a34a;">+$14,870</div>
+          <div class="kpi-sub">Operating cash flow MTD</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <div class="chart-title">Monthly Revenue (Jan – Jul 2026)</div>
+        <div class="chart-placeholder">
+          <div class="bar-wrap"><div class="bar" style="height:80px;"></div><div class="bar-label">Jan<br>$142k</div></div>
+          <div class="bar-wrap"><div class="bar" style="height:88px;"></div><div class="bar-label">Feb<br>$156k</div></div>
+          <div class="bar-wrap"><div class="bar" style="height:72px;"></div><div class="bar-label">Mar<br>$128k</div></div>
+          <div class="bar-wrap"><div class="bar" style="height:96px;"></div><div class="bar-label">Apr<br>$170k</div></div>
+          <div class="bar-wrap"><div class="bar" style="height:104px;"></div><div class="bar-label">May<br>$185k</div></div>
+          <div class="bar-wrap"><div class="bar" style="height:95px;background:#60a5fa;"></div><div class="bar-label">Jun<br>$169k</div></div>
+          <div class="bar-wrap"><div class="bar" style="height:104px;background:#f97316;"></div><div class="bar-label">Jul*<br>$184k</div></div>
+        </div>
+        <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;">* Month-to-date as of Jul 10</p>
+      </div>
+
+      <!-- Sales Dashboard -->
+      <div class="section-header" style="margin-top:28px;">Sales Dashboard</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
+        <div class="card">
+          <div class="chart-title">Pipeline Funnel</div>
+          <div class="funnel">
+            <div class="funnel-stage" style="background:#eff6ff;">
+              <span class="funnel-label">Leads</span>
+              <div class="funnel-bar"><div class="funnel-bar-fill" style="width:100%;"></div></div>
+              <span class="funnel-count">84</span>
+              <span class="funnel-value">$412k</span>
+            </div>
+            <div class="funnel-stage" style="background:#e0f2fe;">
+              <span class="funnel-label">Qualified</span>
+              <div class="funnel-bar"><div class="funnel-bar-fill" style="width:72%;"></div></div>
+              <span class="funnel-count">61</span>
+              <span class="funnel-value">$298k</span>
+            </div>
+            <div class="funnel-stage" style="background:#f0fdf4;">
+              <span class="funnel-label">Proposal</span>
+              <div class="funnel-bar"><div class="funnel-bar-fill" style="width:45%;background:#22c55e;"></div></div>
+              <span class="funnel-count">38</span>
+              <span class="funnel-value">$185k</span>
+            </div>
+            <div class="funnel-stage" style="background:#fefce8;">
+              <span class="funnel-label">Negotiation</span>
+              <div class="funnel-bar"><div class="funnel-bar-fill" style="width:22%;background:#f59e0b;"></div></div>
+              <span class="funnel-count">18</span>
+              <span class="funnel-value">$88k</span>
+            </div>
+            <div class="funnel-stage" style="background:#fdf4ff;">
+              <span class="funnel-label">Closed Won</span>
+              <div class="funnel-bar"><div class="funnel-bar-fill" style="width:14%;background:#8b5cf6;"></div></div>
+              <span class="funnel-count">12</span>
+              <span class="funnel-value">$57k</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="chart-title">Top 5 Customers by Revenue (YTD)</div>
+          <table class="data-table">
+            <thead><tr><th>#</th><th>Customer</th><th>Revenue</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Acme Corporation</td><td>$48,400</td></tr>
+              <tr><td>2</td><td>Blue Ridge School Dist.</td><td>$32,100</td></tr>
+              <tr><td>3</td><td>Sunrise Real Estate</td><td>$24,800</td></tr>
+              <tr><td>4</td><td>High Country Insurance</td><td>$19,550</td></tr>
+              <tr><td>5</td><td>Rocky Mountain Realty</td><td>$16,200</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="chart-title">Sales by Product Category (MTD)</div>
+          <div class="chart-placeholder" style="min-height:180px;">
+            <div class="bar-wrap"><div class="bar" style="height:90px;background:#3b82f6;"></div><div class="bar-label">Bus. Cards<br>$48k</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:60px;background:#8b5cf6;"></div><div class="bar-label">Brochures<br>$32k</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:50px;background:#f59e0b;"></div><div class="bar-label">Banners<br>$27k</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:40px;background:#14b8a6;"></div><div class="bar-label">Postcards<br>$21k</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:30px;background:#f97316;"></div><div class="bar-label">Signage<br>$16k</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:75px;background:#64748b;"></div><div class="bar-label">Other<br>$40k</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Production Dashboard -->
+      <div class="section-header" style="margin-top:28px;">Production Dashboard</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;">
+        <div class="kpi-card">
+          <div class="kpi-label">Jobs Completed (Jul)</div>
+          <div class="kpi-value">38</div>
+          <div class="kpi-sub">+6 vs last month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">On-Time Delivery</div>
+          <div class="kpi-value" style="color:#16a34a;">94.2%</div>
+          <div class="kpi-sub trend-up">↑ 1.8 pts vs last month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Avg Job Turnaround</div>
+          <div class="kpi-value">3.8 days</div>
+          <div class="kpi-sub trend-up">↓ 0.3 days (improved)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Jobs In Progress</div>
+          <div class="kpi-value">12</div>
+          <div class="kpi-sub">Across all presses</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h2 class="card-title">Press Utilization</h2></div>
+        <div style="padding:8px 0;">
+          <div class="progress-row">
+            <div class="progress-label-row">
+              <span style="font-weight:600;">Press 1 — 4-Color Digital</span>
+              <span style="font-weight:700;color:#f59e0b;">87%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill high" style="width:87%"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label-row">
+              <span style="font-weight:600;">Press 2 — Large Format</span>
+              <span style="font-weight:700;color:#3b82f6;">62%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" style="width:62%"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label-row">
+              <span style="font-weight:600;">Bindery</span>
+              <span style="font-weight:700;color:#3b82f6;">54%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" style="width:54%"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label-row">
+              <span style="font-weight:600;">Finishing / Coating</span>
+              <span style="font-weight:700;color:#3b82f6;">41%</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" style="width:41%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: REPORT LIBRARY -->
+    <div class="tab-content" id="tab-library">
+      <div class="report-library-grid">
+        <div class="report-card">
+          <div class="report-card-icon">📋</div>
+          <div class="report-card-name">Profit &amp; Loss Statement</div>
+          <div class="report-card-desc">Revenue, expenses, and net income for a selected period. Supports monthly and YTD views.</div>
+          <div class="report-card-meta">Last run: Jul 1, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">⚖️</div>
+          <div class="report-card-name">Balance Sheet</div>
+          <div class="report-card-desc">Assets, liabilities, and equity snapshot as of any date.</div>
+          <div class="report-card-meta">Last run: Jul 1, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">💰</div>
+          <div class="report-card-name">Cash Flow Statement</div>
+          <div class="report-card-desc">Operating, investing, and financing cash flows for the selected period.</div>
+          <div class="report-card-meta">Last run: Jul 1, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">📅</div>
+          <div class="report-card-name">AR Aging Report</div>
+          <div class="report-card-desc">Outstanding receivables by age bucket: Current, 30, 60, 90+ days.</div>
+          <div class="report-card-meta">Last run: Jul 7, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">📅</div>
+          <div class="report-card-name">AP Aging Report</div>
+          <div class="report-card-desc">Outstanding payables by vendor and age bucket.</div>
+          <div class="report-card-meta">Last run: Jul 7, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">📧</div>
+          <div class="report-card-name">Customer Statement</div>
+          <div class="report-card-desc">Per-customer invoice and payment history. Supports email delivery.</div>
+          <div class="report-card-meta">Last run: Jul 5, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">🏷</div>
+          <div class="report-card-name">Sales by Product</div>
+          <div class="report-card-desc">Units sold and revenue by product, sortable by category or SKU.</div>
+          <div class="report-card-meta">Last run: Jul 3, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">👤</div>
+          <div class="report-card-name">Sales by Rep</div>
+          <div class="report-card-desc">Revenue, orders, and gross margin broken down by sales representative.</div>
+          <div class="report-card-meta">Last run: Jul 1, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">🏭</div>
+          <div class="report-card-name">Job Profitability</div>
+          <div class="report-card-desc">Revenue vs. costs per job, including materials, labor, and press time.</div>
+          <div class="report-card-meta">Last run: Jul 2, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">📦</div>
+          <div class="report-card-name">Inventory Valuation</div>
+          <div class="report-card-desc">On-hand quantities and value by item and location, with FIFO/LIFO options.</div>
+          <div class="report-card-meta">Last run: Jun 30, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">🖨</div>
+          <div class="report-card-name">Press Utilization</div>
+          <div class="report-card-desc">Capacity usage, hours, and efficiency per press station.</div>
+          <div class="report-card-meta">Last run: Jul 7, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card">
+          <div class="report-card-icon">🧾</div>
+          <div class="report-card-name">Tax Summary</div>
+          <div class="report-card-desc">Sales tax collected and remitted by jurisdiction. Supports CPA export.</div>
+          <div class="report-card-meta">Last run: Jul 1, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">⏰ Schedule</button>
+          </div>
+        </div>
+        <div class="report-card" style="border-color:#8b5cf6;background:#fdf4ff;">
+          <div class="report-card-icon">⭐</div>
+          <div class="report-card-name">Monthly Executive Summary <span class="badge badge-purple" style="font-size:10px;">Custom</span></div>
+          <div class="report-card-desc">Combined finance, sales, and production KPIs. Sent monthly to leadership.</div>
+          <div class="report-card-meta">Last run: Jul 1, 2026</div>
+          <div class="report-card-actions">
+            <button class="btn btn-primary btn-sm">▶ Run</button>
+            <button class="btn btn-secondary btn-sm">✏️ Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: CUSTOM REPORT -->
+    <div class="tab-content" id="tab-custom">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Custom Report Builder</h2>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-secondary">👁 Preview</button>
+            <button class="btn btn-primary">💾 Save Report</button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px;margin-bottom:20px;">
+          <div class="form-group">
+            <label class="form-label">Report Name</label>
+            <input type="text" class="form-input" placeholder="e.g. Weekly Sales by Rep">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Data Source</label>
+            <select class="form-input">
+              <option>Accounting</option>
+              <option selected>Sales</option>
+              <option>Inventory</option>
+              <option>Production</option>
+              <option>CRM</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date From</label>
+            <input type="date" class="form-input" value="2026-07-01">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date To</label>
+            <input type="date" class="form-input" value="2026-07-10">
+          </div>
+        </div>
+
+        <div class="builder-grid">
+          <div>
+            <div class="form-label" style="margin-bottom:8px;">Available Fields <span style="color:#94a3b8;font-size:11px;">(drag to add)</span></div>
+            <div class="field-list">
+              <div class="field-item">Invoice Date</div>
+              <div class="field-item">Invoice Number</div>
+              <div class="field-item">Customer Name</div>
+              <div class="field-item">Sales Rep</div>
+              <div class="field-item">Product Category</div>
+              <div class="field-item">Product Name</div>
+              <div class="field-item">Quantity</div>
+              <div class="field-item">Unit Price</div>
+              <div class="field-item">Line Total</div>
+              <div class="field-item">Discount %</div>
+              <div class="field-item">Tax Amount</div>
+              <div class="field-item">Invoice Total</div>
+              <div class="field-item">Payment Status</div>
+              <div class="field-item">Job Number</div>
+            </div>
+          </div>
+          <div>
+            <div class="form-label" style="margin-bottom:8px;">Report Columns <span style="color:#94a3b8;font-size:11px;">(drag to reorder)</span></div>
+            <div class="field-list">
+              <div class="field-item" style="background:#eff6ff;border-color:#bfdbfe;">Invoice Date</div>
+              <div class="field-item" style="background:#eff6ff;border-color:#bfdbfe;">Customer Name</div>
+              <div class="field-item" style="background:#eff6ff;border-color:#bfdbfe;">Sales Rep</div>
+              <div class="field-item" style="background:#eff6ff;border-color:#bfdbfe;">Product Category</div>
+              <div class="field-item" style="background:#eff6ff;border-color:#bfdbfe;">Invoice Total</div>
+              <div style="border: 2px dashed #d1d5db;border-radius:6px;padding:16px;text-align:center;color:#94a3b8;font-size:12px;margin-top:8px;">
+                Drop fields here to add columns
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <div class="form-label" style="margin-bottom:8px;">Filter Conditions</div>
+          <div class="condition-row">
+            <select><option>Sales Rep</option><option>Customer</option><option>Product Category</option><option>Amount</option></select>
+            <select><option>equals</option><option>contains</option><option>greater than</option><option>less than</option></select>
+            <input type="text" placeholder="Value…">
+            <button class="remove-btn">✕</button>
+          </div>
+          <div class="condition-row">
+            <select><option>Invoice Total</option><option>Customer</option></select>
+            <select><option>greater than</option></select>
+            <input type="text" value="500">
+            <button class="remove-btn">✕</button>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="margin-top:4px;">+ Add Condition</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px;">
+          <div class="form-group">
+            <label class="form-label">Group By</label>
+            <select class="form-input"><option>— None —</option><option>Sales Rep</option><option selected>Customer Name</option><option>Product Category</option><option>Month</option></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sort By</label>
+            <select class="form-input"><option>Invoice Total (desc)</option><option>Invoice Date (asc)</option><option>Customer Name (asc)</option></select>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;margin-top:16px;">
+          <button class="btn btn-secondary">👁 Preview Report</button>
+          <button class="btn btn-primary">💾 Save Report</button>
+          <button class="btn btn-secondary">📤 Export CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: SCHEDULED -->
+    <div class="tab-content" id="tab-scheduled">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Scheduled Reports</h2>
+          <button class="btn btn-primary">+ Schedule Report</button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Report Name</th><th>Frequency</th><th>Recipients</th><th>Last Sent</th><th>Next Send</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Monthly P&amp;L Statement</strong></td>
+              <td>Monthly (1st)</td>
+              <td>3 recipients</td>
+              <td>Jul 1, 2026</td>
+              <td>Aug 1, 2026</td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td><a href="#" class="link-action">Edit</a> <a href="#" class="link-action">Pause</a></td>
+            </tr>
+            <tr>
+              <td><strong>Weekly AR Aging</strong></td>
+              <td>Weekly (Mon)</td>
+              <td>2 recipients</td>
+              <td>Jul 7, 2026</td>
+              <td>Jul 14, 2026</td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td><a href="#" class="link-action">Edit</a> <a href="#" class="link-action">Pause</a></td>
+            </tr>
+            <tr>
+              <td><strong>Daily Job Status</strong></td>
+              <td>Daily (7 AM)</td>
+              <td>4 recipients</td>
+              <td>Jul 10, 2026</td>
+              <td>Jul 11, 2026</td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td><a href="#" class="link-action">Edit</a> <a href="#" class="link-action">Pause</a></td>
+            </tr>
+            <tr>
+              <td><strong>Monthly Executive Summary</strong></td>
+              <td>Monthly (1st)</td>
+              <td>5 recipients</td>
+              <td>Jul 1, 2026</td>
+              <td>Aug 1, 2026</td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td><a href="#" class="link-action">Edit</a> <a href="#" class="link-action">Pause</a></td>
+            </tr>
+            <tr>
+              <td><strong>Weekly Sales by Rep</strong></td>
+              <td>Weekly (Fri)</td>
+              <td>2 recipients</td>
+              <td>Jul 7, 2026</td>
+              <td>Jul 11, 2026</td>
+              <td><span class="badge badge-yellow">Paused</span></td>
+              <td><a href="#" class="link-action">Edit</a> <a href="#" class="link-action">Resume</a></td>
+            </tr>
+            <tr>
+              <td><strong>Quarterly Tax Summary</strong></td>
+              <td>Quarterly</td>
+              <td>1 recipient</td>
+              <td>Apr 1, 2026</td>
+              <td>Oct 1, 2026</td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td><a href="#" class="link-action">Edit</a> <a href="#" class="link-action">Pause</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /.page-content -->
+</div><!-- /.main-area -->
+
+<script>
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

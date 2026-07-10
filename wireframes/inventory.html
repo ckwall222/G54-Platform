@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G54 Platform — Inventory</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">G54 Platform</div>
+      <div class="client">Great Mountain West</div>
+    </div>
+    <div class="sidebar-section"><a href="index.html">⊞ Dashboard</a></div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Customer</div>
+      <a href="crm.html">👥 CRM</a>
+      <a href="sales.html">🏷 Sales</a>
+      <a href="ecommerce.html">🛒 eCommerce</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Finance</div>
+      <a href="accounting.html">📒 Accounting</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Operations</div>
+      <a href="inventory.html" class="active">📦 Inventory</a>
+      <a href="pos.html">🖥 Point of Sale</a>
+      <a href="jobs.html">🏭 Jobs &amp; Production</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Intelligence</div>
+      <a href="reports.html">📈 Reports</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">System</div>
+      <a href="admin.html">⚙ Administration</a>
+    </div>
+    <div class="sidebar-footer">CW · Christopher Wall</div>
+  </aside>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="breadcrumb">Operations / <b>Inventory</b></span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-icon">🔔<span class="notif-dot"></span></div>
+        <div class="topbar-icon">❓</div>
+        <div class="user-chip">
+          <div class="avatar">CW</div>
+          <span class="user-name">Christopher Wall</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Inventory</h1>
+          <p class="page-subtitle">Stock management, purchasing, and receiving</p>
+        </div>
+        <div class="page-header-actions">
+          <button class="btn btn-secondary">Export</button>
+          <button class="btn btn-secondary">Adjust Stock</button>
+          <button class="btn btn-primary">+ New PO</button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('products', this)">Products</button>
+        <button class="tab" onclick="showTab('stock', this)">Stock Levels</button>
+        <button class="tab" onclick="showTab('po', this)">Purchase Orders</button>
+        <button class="tab" onclick="showTab('receiving', this)">Receiving</button>
+      </div>
+
+      <!-- ===== TAB: PRODUCTS ===== -->
+      <div id="tab-products" class="tab-panel active">
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <input type="text" class="input-sm" placeholder="Search SKU, product name...">
+            <select class="input-sm">
+              <option>All Categories</option>
+              <option>Paper Stock</option>
+              <option>Ink &amp; Toner</option>
+              <option>Substrate</option>
+              <option>Packaging</option>
+              <option>Supplies</option>
+            </select>
+            <select class="input-sm">
+              <option>All Statuses</option>
+              <option>In Stock</option>
+              <option>Low Stock</option>
+              <option>Out of Stock</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-secondary">Import CSV</button>
+            <button class="btn btn-primary">+ Add Product</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Unit</th>
+                <th class="text-right">Cost</th>
+                <th class="text-right">List Price</th>
+                <th class="text-right">On Hand</th>
+                <th class="text-right">Committed</th>
+                <th class="text-right">Available</th>
+                <th class="text-right">Reorder Pt</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="sku">PAP-60LB-OFF</code></td>
+                <td>60lb Offset Paper</td>
+                <td><span class="category-tag">Paper Stock</span></td>
+                <td>Carton</td>
+                <td class="text-right">$48.50</td>
+                <td class="text-right">$78.00</td>
+                <td class="text-right">42</td>
+                <td class="text-right">18</td>
+                <td class="text-right"><b>24</b></td>
+                <td class="text-right">20</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button></td>
+              </tr>
+              <tr class="low-stock-row">
+                <td><code class="sku">INK-4CLR-PRO</code></td>
+                <td>4-Color Process Ink Set</td>
+                <td><span class="category-tag">Ink &amp; Toner</span></td>
+                <td>Set</td>
+                <td class="text-right">$220.00</td>
+                <td class="text-right">$340.00</td>
+                <td class="text-right">6</td>
+                <td class="text-right">5</td>
+                <td class="text-right"><b style="color:#f59e0b;">1</b></td>
+                <td class="text-right">8</td>
+                <td><span class="badge badge-red">Low Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button> <button class="btn-icon" title="Create PO">🛒</button></td>
+              </tr>
+              <tr>
+                <td><code class="sku">SUB-VNL-13OZ</code></td>
+                <td>Vinyl Banner Material 13oz</td>
+                <td><span class="category-tag">Substrate</span></td>
+                <td>Roll (50 yd)</td>
+                <td class="text-right">$185.00</td>
+                <td class="text-right">$290.00</td>
+                <td class="text-right">8</td>
+                <td class="text-right">3</td>
+                <td class="text-right"><b>5</b></td>
+                <td class="text-right">4</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button></td>
+              </tr>
+              <tr>
+                <td><code class="sku">SUB-FOAM-3MM</code></td>
+                <td>Foam Core Board 3/16" 4x8</td>
+                <td><span class="category-tag">Substrate</span></td>
+                <td>Sheet</td>
+                <td class="text-right">$4.20</td>
+                <td class="text-right">$7.50</td>
+                <td class="text-right">120</td>
+                <td class="text-right">40</td>
+                <td class="text-right"><b>80</b></td>
+                <td class="text-right">50</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button></td>
+              </tr>
+              <tr class="low-stock-row">
+                <td><code class="sku">SUP-LAM-GLOSS</code></td>
+                <td>Laminate Film Gloss 3mil</td>
+                <td><span class="category-tag">Supplies</span></td>
+                <td>Roll (500 ft)</td>
+                <td class="text-right">$142.00</td>
+                <td class="text-right">$220.00</td>
+                <td class="text-right">3</td>
+                <td class="text-right">2</td>
+                <td class="text-right"><b style="color:#f59e0b;">1</b></td>
+                <td class="text-right">5</td>
+                <td><span class="badge badge-red">Low Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button> <button class="btn-icon" title="Create PO">🛒</button></td>
+              </tr>
+              <tr>
+                <td><code class="sku">PAP-100CS-WHT</code></td>
+                <td>Cardstock 100lb White</td>
+                <td><span class="category-tag">Paper Stock</span></td>
+                <td>Carton</td>
+                <td class="text-right">$72.00</td>
+                <td class="text-right">$115.00</td>
+                <td class="text-right">28</td>
+                <td class="text-right">12</td>
+                <td class="text-right"><b>16</b></td>
+                <td class="text-right">15</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button></td>
+              </tr>
+              <tr>
+                <td><code class="sku">PKG-KENV-10B</code></td>
+                <td>Kraft Envelopes #10 Bulk</td>
+                <td><span class="category-tag">Packaging</span></td>
+                <td>Box (500)</td>
+                <td class="text-right">$28.00</td>
+                <td class="text-right">$44.00</td>
+                <td class="text-right">15</td>
+                <td class="text-right">6</td>
+                <td class="text-right"><b>9</b></td>
+                <td class="text-right">10</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button></td>
+              </tr>
+              <tr>
+                <td><code class="sku">PKG-BBAG-MED</code></td>
+                <td>Bubble Mailers 8.5x11 Med</td>
+                <td><span class="category-tag">Packaging</span></td>
+                <td>Case (100)</td>
+                <td class="text-right">$32.00</td>
+                <td class="text-right">$52.00</td>
+                <td class="text-right">22</td>
+                <td class="text-right">8</td>
+                <td class="text-right"><b>14</b></td>
+                <td class="text-right">10</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button></td>
+              </tr>
+              <tr class="low-stock-row" style="background:#fef2f2;">
+                <td><code class="sku">INK-TNRK-BLK</code></td>
+                <td>Toner Cartridge Black XL</td>
+                <td><span class="category-tag">Ink &amp; Toner</span></td>
+                <td>Each</td>
+                <td class="text-right">$88.00</td>
+                <td class="text-right">$145.00</td>
+                <td class="text-right">0</td>
+                <td class="text-right">2</td>
+                <td class="text-right"><b style="color:#ef4444;">-2</b></td>
+                <td class="text-right">4</td>
+                <td><span class="badge badge-red">Out of Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button> <button class="btn-icon" title="Emergency PO">🚨</button></td>
+              </tr>
+              <tr>
+                <td><code class="sku">SUP-COAT-UVG</code></td>
+                <td>Gloss UV Coating Liquid</td>
+                <td><span class="category-tag">Supplies</span></td>
+                <td>Gallon</td>
+                <td class="text-right">$64.00</td>
+                <td class="text-right">$98.00</td>
+                <td class="text-right">11</td>
+                <td class="text-right">4</td>
+                <td class="text-right"><b>7</b></td>
+                <td class="text-right">6</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <span class="table-count">Showing 10 of 248 products · 2 low stock · 1 out of stock</span>
+            <div class="pagination">
+              <button class="btn-page" disabled>‹ Prev</button>
+              <button class="btn-page active">1</button>
+              <button class="btn-page">2</button>
+              <button class="btn-page">3</button>
+              <span>…</span>
+              <button class="btn-page">25</button>
+              <button class="btn-page">Next ›</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: STOCK LEVELS ===== -->
+      <div id="tab-stock" class="tab-panel">
+
+        <div class="alert alert-warn">
+          ⚠️ <strong>3 products below reorder point.</strong> 1 product is <strong>out of stock</strong> with committed demand.
+          <a href="#" class="alert-link">Create Purchase Orders →</a>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <input type="text" class="input-sm" placeholder="Search products...">
+            <select class="input-sm">
+              <option>All Locations</option>
+              <option>Main Warehouse</option>
+              <option>Press Room Supplies</option>
+              <option>Bindery</option>
+              <option>Receiving</option>
+            </select>
+            <select class="input-sm">
+              <option>All Statuses</option>
+              <option>Low Stock</option>
+              <option>Out of Stock</option>
+              <option>In Stock</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-secondary">Physical Count</button>
+            <button class="btn btn-secondary">Stock Transfer</button>
+            <button class="btn btn-primary">Adjust Stock</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>SKU</th>
+                <th>Location</th>
+                <th class="text-right">On Hand</th>
+                <th class="text-right">Committed</th>
+                <th class="text-right">Available</th>
+                <th class="text-right">Reorder Pt</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>60lb Offset Paper</td>
+                <td><code class="sku">PAP-60LB-OFF</code></td>
+                <td>Main Warehouse</td>
+                <td class="text-right">42</td>
+                <td class="text-right">18</td>
+                <td class="text-right"><b>24</b></td>
+                <td class="text-right">20</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn btn-secondary btn-sm">Transfer</button></td>
+              </tr>
+              <tr class="low-stock-row">
+                <td>4-Color Process Ink Set</td>
+                <td><code class="sku">INK-4CLR-PRO</code></td>
+                <td>Press Room Supplies</td>
+                <td class="text-right">6</td>
+                <td class="text-right">5</td>
+                <td class="text-right"><b style="color:#f59e0b;">1</b></td>
+                <td class="text-right">8</td>
+                <td><span class="badge badge-red">Low Stock</span></td>
+                <td><button class="btn btn-primary btn-sm">Create PO</button></td>
+              </tr>
+              <tr>
+                <td>Vinyl Banner Material 13oz</td>
+                <td><code class="sku">SUB-VNL-13OZ</code></td>
+                <td>Main Warehouse</td>
+                <td class="text-right">8</td>
+                <td class="text-right">3</td>
+                <td class="text-right"><b>5</b></td>
+                <td class="text-right">4</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn btn-secondary btn-sm">Transfer</button></td>
+              </tr>
+              <tr>
+                <td>Foam Core Board 3/16" 4x8</td>
+                <td><code class="sku">SUB-FOAM-3MM</code></td>
+                <td>Main Warehouse</td>
+                <td class="text-right">120</td>
+                <td class="text-right">40</td>
+                <td class="text-right"><b>80</b></td>
+                <td class="text-right">50</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn btn-secondary btn-sm">Transfer</button></td>
+              </tr>
+              <tr>
+                <td>Foam Core Board 3/16" 4x8</td>
+                <td><code class="sku">SUB-FOAM-3MM</code></td>
+                <td>Bindery</td>
+                <td class="text-right">15</td>
+                <td class="text-right">10</td>
+                <td class="text-right"><b>5</b></td>
+                <td class="text-right">—</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn btn-secondary btn-sm">Transfer</button></td>
+              </tr>
+              <tr class="low-stock-row">
+                <td>Laminate Film Gloss 3mil</td>
+                <td><code class="sku">SUP-LAM-GLOSS</code></td>
+                <td>Bindery</td>
+                <td class="text-right">3</td>
+                <td class="text-right">2</td>
+                <td class="text-right"><b style="color:#f59e0b;">1</b></td>
+                <td class="text-right">5</td>
+                <td><span class="badge badge-red">Low Stock</span></td>
+                <td><button class="btn btn-primary btn-sm">Create PO</button></td>
+              </tr>
+              <tr>
+                <td>Cardstock 100lb White</td>
+                <td><code class="sku">PAP-100CS-WHT</code></td>
+                <td>Main Warehouse</td>
+                <td class="text-right">28</td>
+                <td class="text-right">12</td>
+                <td class="text-right"><b>16</b></td>
+                <td class="text-right">15</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn btn-secondary btn-sm">Transfer</button></td>
+              </tr>
+              <tr>
+                <td>Kraft Envelopes #10 Bulk</td>
+                <td><code class="sku">PKG-KENV-10B</code></td>
+                <td>Receiving</td>
+                <td class="text-right">15</td>
+                <td class="text-right">6</td>
+                <td class="text-right"><b>9</b></td>
+                <td class="text-right">10</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn btn-secondary btn-sm">Transfer</button></td>
+              </tr>
+              <tr style="background:#fef2f2;">
+                <td>Toner Cartridge Black XL</td>
+                <td><code class="sku">INK-TNRK-BLK</code></td>
+                <td>Press Room Supplies</td>
+                <td class="text-right" style="color:#ef4444;font-weight:600;">0</td>
+                <td class="text-right">2</td>
+                <td class="text-right"><b style="color:#ef4444;">-2</b></td>
+                <td class="text-right">4</td>
+                <td><span class="badge badge-red">Out of Stock</span></td>
+                <td><button class="btn btn-primary btn-sm" style="background:#ef4444;">Urgent PO</button></td>
+              </tr>
+              <tr>
+                <td>Gloss UV Coating Liquid</td>
+                <td><code class="sku">SUP-COAT-UVG</code></td>
+                <td>Main Warehouse</td>
+                <td class="text-right">11</td>
+                <td class="text-right">4</td>
+                <td class="text-right"><b>7</b></td>
+                <td class="text-right">6</td>
+                <td><span class="badge badge-green">In Stock</span></td>
+                <td><button class="btn btn-secondary btn-sm">Transfer</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <span class="table-count">Showing 10 of 248 stock records across 4 locations</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: PURCHASE ORDERS ===== -->
+      <div id="tab-po" class="tab-panel">
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <input type="text" class="input-sm" placeholder="Search PO#, vendor...">
+            <select class="input-sm">
+              <option>All Statuses</option>
+              <option>Draft</option>
+              <option>Sent</option>
+              <option>Partial</option>
+              <option>Received</option>
+              <option>Cancelled</option>
+            </select>
+            <select class="input-sm">
+              <option>All Vendors</option>
+              <option>Sappi Fine Paper</option>
+              <option>Fujifilm Ink Systems</option>
+              <option>Xpedx Distribution</option>
+              <option>Ryobi MHI Graphics</option>
+              <option>Consolidated Label Co.</option>
+            </select>
+            <input type="date" class="input-sm" value="2026-06-01">
+            <span class="input-sep">to</span>
+            <input type="date" class="input-sm" value="2026-07-31">
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-secondary">Export</button>
+            <button class="btn btn-primary">+ New PO</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>PO #</th>
+                <th>Vendor</th>
+                <th class="text-right">Items</th>
+                <th>Order Date</th>
+                <th>Expected Date</th>
+                <th class="text-right">Amount</th>
+                <th class="text-right">Received %</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0142</a></td>
+                <td>Sappi Fine Paper Co.</td>
+                <td class="text-right">3</td>
+                <td>Jul 8, 2026</td>
+                <td>Jul 15, 2026</td>
+                <td class="text-right">$4,320.00</td>
+                <td class="text-right">
+                  <div class="progress-bar-wrap"><div class="progress-bar" style="width:0%;background:#3b82f6;"></div></div>
+                  <span class="progress-pct">0%</span>
+                </td>
+                <td><span class="badge badge-blue">Sent</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button></td>
+              </tr>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0141</a></td>
+                <td>Fujifilm Ink Systems</td>
+                <td class="text-right">2</td>
+                <td>Jul 7, 2026</td>
+                <td>Jul 14, 2026</td>
+                <td class="text-right">$2,880.00</td>
+                <td class="text-right">
+                  <div class="progress-bar-wrap"><div class="progress-bar" style="width:0%;background:#3b82f6;"></div></div>
+                  <span class="progress-pct">0%</span>
+                </td>
+                <td><span class="badge badge-yellow">Draft</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">✏️</button> <button class="btn-icon" title="Send to Vendor">📧</button></td>
+              </tr>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0140</a></td>
+                <td>Xpedx Distribution</td>
+                <td class="text-right">4</td>
+                <td>Jul 5, 2026</td>
+                <td>Jul 12, 2026</td>
+                <td class="text-right">$8,410.00</td>
+                <td class="text-right">
+                  <div class="progress-bar-wrap"><div class="progress-bar" style="width:50%;background:#f59e0b;"></div></div>
+                  <span class="progress-pct">50%</span>
+                </td>
+                <td><span class="badge badge-yellow">Partial</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon" title="Receive">📦</button></td>
+              </tr>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0139</a></td>
+                <td>Ryobi MHI Graphics</td>
+                <td class="text-right">1</td>
+                <td>Jul 3, 2026</td>
+                <td>Jul 10, 2026</td>
+                <td class="text-right">$1,750.00</td>
+                <td class="text-right">
+                  <div class="progress-bar-wrap"><div class="progress-bar" style="width:100%;background:#22c55e;"></div></div>
+                  <span class="progress-pct">100%</span>
+                </td>
+                <td><span class="badge badge-green">Received</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">🖨</button></td>
+              </tr>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0137</a></td>
+                <td>Consolidated Label Co.</td>
+                <td class="text-right">6</td>
+                <td>Jun 28, 2026</td>
+                <td>Jul 8, 2026</td>
+                <td class="text-right">$3,120.00</td>
+                <td class="text-right">
+                  <div class="progress-bar-wrap"><div class="progress-bar" style="width:100%;background:#22c55e;"></div></div>
+                  <span class="progress-pct">100%</span>
+                </td>
+                <td><span class="badge badge-green">Received</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon">🖨</button></td>
+              </tr>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0134</a></td>
+                <td>Sappi Fine Paper Co.</td>
+                <td class="text-right">5</td>
+                <td>Jun 20, 2026</td>
+                <td>Jun 30, 2026</td>
+                <td class="text-right">$7,840.00</td>
+                <td class="text-right">
+                  <div class="progress-bar-wrap"><div class="progress-bar" style="width:75%;background:#f59e0b;"></div></div>
+                  <span class="progress-pct">75%</span>
+                </td>
+                <td><span class="badge badge-yellow">Partial</span></td>
+                <td><button class="btn-icon">👁</button> <button class="btn-icon" title="Receive Remaining">📦</button></td>
+              </tr>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0129</a></td>
+                <td>Xpedx Distribution</td>
+                <td class="text-right">2</td>
+                <td>Jun 10, 2026</td>
+                <td>Jun 20, 2026</td>
+                <td class="text-right">$1,680.00</td>
+                <td class="text-right">
+                  <div class="progress-bar-wrap"><div class="progress-bar" style="width:0%;background:#94a3b8;"></div></div>
+                  <span class="progress-pct" style="color:#ef4444;">0%</span>
+                </td>
+                <td><span class="badge badge-red">Cancelled</span></td>
+                <td><button class="btn-icon">👁</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <span class="table-count">Showing 7 of 38 purchase orders</span>
+            <div class="pagination">
+              <button class="btn-page" disabled>‹ Prev</button>
+              <button class="btn-page active">1</button>
+              <button class="btn-page">2</button>
+              <button class="btn-page">Next ›</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: RECEIVING ===== -->
+      <div id="tab-receiving" class="tab-panel">
+
+        <div class="alert alert-info">
+          📦 <strong>2 shipments expected today</strong> (Jul 10, 2026). Check in arriving goods below.
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <input type="text" class="input-sm" placeholder="Search PO# or vendor...">
+            <select class="input-sm">
+              <option>Expected Today</option>
+              <option>All Open POs</option>
+              <option>Past Due</option>
+            </select>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn btn-secondary">Print Receiving Sheet</button>
+          </div>
+        </div>
+
+        <!-- Open POs Awaiting Receipt -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Open POs Awaiting Receipt</div>
+          </div>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>PO #</th>
+                <th>Vendor</th>
+                <th>Expected Date</th>
+                <th class="text-right">Items</th>
+                <th class="text-right">PO Total</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#eff6ff;">
+                <td><a href="#" class="link">PO-2026-0142</a></td>
+                <td>Sappi Fine Paper Co.</td>
+                <td><b>Jul 10, 2026</b> <span class="badge badge-blue badge-sm">Today</span></td>
+                <td class="text-right">3</td>
+                <td class="text-right">$4,320.00</td>
+                <td><span class="badge badge-blue">Sent</span></td>
+                <td><button class="btn btn-primary btn-sm" onclick="toggleReceiveForm('form-0142')">📦 Receive</button></td>
+              </tr>
+              <tr style="background:#eff6ff;">
+                <td><a href="#" class="link">PO-2026-0141</a></td>
+                <td>Fujifilm Ink Systems</td>
+                <td><b>Jul 10, 2026</b> <span class="badge badge-blue badge-sm">Today</span></td>
+                <td class="text-right">2</td>
+                <td class="text-right">$2,880.00</td>
+                <td><span class="badge badge-blue">Sent</span></td>
+                <td><button class="btn btn-primary btn-sm" onclick="toggleReceiveForm('form-0141')">📦 Receive</button></td>
+              </tr>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0140</a></td>
+                <td>Xpedx Distribution</td>
+                <td>Jul 12, 2026</td>
+                <td class="text-right">4</td>
+                <td class="text-right">$8,410.00</td>
+                <td><span class="badge badge-yellow">Partial</span></td>
+                <td><button class="btn btn-secondary btn-sm" onclick="toggleReceiveForm('form-0140')">📦 Receive</button></td>
+              </tr>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0139</a></td>
+                <td>Ryobi MHI Graphics</td>
+                <td>Jul 10, 2026</td>
+                <td class="text-right">1</td>
+                <td class="text-right">$1,750.00</td>
+                <td><span class="badge badge-yellow">Partial</span></td>
+                <td><button class="btn btn-secondary btn-sm" onclick="toggleReceiveForm('form-0139')">📦 Receive</button></td>
+              </tr>
+              <tr>
+                <td><a href="#" class="link">PO-2026-0134</a></td>
+                <td>Sappi Fine Paper Co.</td>
+                <td>Jun 30, 2026 <span class="badge badge-red badge-sm">Overdue</span></td>
+                <td class="text-right">5</td>
+                <td class="text-right">$7,840.00</td>
+                <td><span class="badge badge-yellow">Partial</span></td>
+                <td><button class="btn btn-secondary btn-sm" onclick="toggleReceiveForm('form-0134')">📦 Receive</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Receiving Form — PO-2026-0142 (initially visible as example) -->
+        <div class="card receiving-form" id="form-0142">
+          <div class="card-header">
+            <div class="card-title">Receiving — PO-2026-0142 / Sappi Fine Paper Co.</div>
+            <div class="card-actions">
+              <button class="btn btn-secondary btn-sm" onclick="toggleReceiveForm('form-0142')">Cancel</button>
+              <button class="btn btn-primary btn-sm">Post Receipt</button>
+            </div>
+          </div>
+
+          <div class="receive-form-meta g3" style="margin-bottom:16px;">
+            <div class="form-field">
+              <label class="form-label">PO #</label>
+              <input type="text" class="input-sm" value="PO-2026-0142" readonly>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Receipt Date</label>
+              <input type="date" class="input-sm" value="2026-07-10">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Carrier / Tracking</label>
+              <input type="text" class="input-sm" placeholder="e.g. FedEx 1Z842W...">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Received By</label>
+              <input type="text" class="input-sm" value="Christopher Wall">
+            </div>
+            <div class="form-field">
+              <label class="form-label">Destination Location</label>
+              <select class="input-sm">
+                <option>Main Warehouse</option>
+                <option>Press Room Supplies</option>
+                <option>Bindery</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Notes</label>
+              <input type="text" class="input-sm" placeholder="Damage notes, discrepancies...">
+            </div>
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Product</th>
+                <th class="text-right">Ordered</th>
+                <th class="text-right">Previously Rec.</th>
+                <th class="text-right">Expected This Shipment</th>
+                <th class="text-right">Qty Received</th>
+                <th>Condition</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="sku">PAP-60LB-OFF</code></td>
+                <td>60lb Offset Paper</td>
+                <td class="text-right">10</td>
+                <td class="text-right">0</td>
+                <td class="text-right">10</td>
+                <td class="text-right"><input type="number" class="input-qty" value="10" min="0" max="10"></td>
+                <td>
+                  <select class="input-sm">
+                    <option>Good</option>
+                    <option>Damaged</option>
+                    <option>Short</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><code class="sku">PAP-100CS-WHT</code></td>
+                <td>Cardstock 100lb White</td>
+                <td class="text-right">8</td>
+                <td class="text-right">0</td>
+                <td class="text-right">8</td>
+                <td class="text-right"><input type="number" class="input-qty" value="8" min="0" max="8"></td>
+                <td>
+                  <select class="input-sm">
+                    <option>Good</option>
+                    <option>Damaged</option>
+                    <option>Short</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><code class="sku">SUP-COAT-UVG</code></td>
+                <td>Gloss UV Coating Liquid</td>
+                <td class="text-right">6</td>
+                <td class="text-right">0</td>
+                <td class="text-right">6</td>
+                <td class="text-right"><input type="number" class="input-qty" value="" placeholder="0" min="0" max="6"></td>
+                <td>
+                  <select class="input-sm">
+                    <option>Good</option>
+                    <option>Damaged</option>
+                    <option>Short</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="receive-form-footer">
+            <div class="receive-form-summary">
+              <span>PO Total: <b>$4,320.00</b></span>
+              <span>Lines: <b>3</b></span>
+              <span>Units Expected: <b>24</b></span>
+            </div>
+            <div class="receive-form-actions">
+              <button class="btn btn-secondary" onclick="toggleReceiveForm('form-0142')">Cancel</button>
+              <button class="btn btn-primary">Post Receipt</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Collapsed receiving forms for other POs -->
+        <div class="card receiving-form receiving-form--collapsed" id="form-0141" style="display:none;">
+          <div class="card-header">
+            <div class="card-title">Receiving — PO-2026-0141 / Fujifilm Ink Systems</div>
+            <div class="card-actions">
+              <button class="btn btn-secondary btn-sm" onclick="toggleReceiveForm('form-0141')">Cancel</button>
+              <button class="btn btn-primary btn-sm">Post Receipt</button>
+            </div>
+          </div>
+          <div class="receive-form-placeholder">
+            <p style="color:#64748b;padding:24px;text-align:center;">Line item entry for PO-2026-0141 · 2 items · $2,880.00</p>
+          </div>
+        </div>
+
+        <div class="card receiving-form receiving-form--collapsed" id="form-0140" style="display:none;">
+          <div class="card-header">
+            <div class="card-title">Receiving — PO-2026-0140 / Xpedx Distribution (Partial)</div>
+            <div class="card-actions">
+              <button class="btn btn-secondary btn-sm" onclick="toggleReceiveForm('form-0140')">Cancel</button>
+              <button class="btn btn-primary btn-sm">Post Receipt</button>
+            </div>
+          </div>
+          <div class="receive-form-placeholder">
+            <p style="color:#64748b;padding:24px;text-align:center;">Receiving 2 of 4 remaining items · Partial PO-2026-0140</p>
+          </div>
+        </div>
+
+        <div class="card receiving-form receiving-form--collapsed" id="form-0139" style="display:none;">
+          <div class="card-header">
+            <div class="card-title">Receiving — PO-2026-0139 / Ryobi MHI Graphics</div>
+            <div class="card-actions">
+              <button class="btn btn-secondary btn-sm" onclick="toggleReceiveForm('form-0139')">Cancel</button>
+              <button class="btn btn-primary btn-sm">Post Receipt</button>
+            </div>
+          </div>
+          <div class="receive-form-placeholder">
+            <p style="color:#64748b;padding:24px;text-align:center;">Line item entry for PO-2026-0139 · 1 item · $1,750.00</p>
+          </div>
+        </div>
+
+        <div class="card receiving-form receiving-form--collapsed" id="form-0134" style="display:none;">
+          <div class="card-header">
+            <div class="card-title">Receiving — PO-2026-0134 / Sappi Fine Paper (Overdue Partial)</div>
+            <div class="card-actions">
+              <button class="btn btn-secondary btn-sm" onclick="toggleReceiveForm('form-0134')">Cancel</button>
+              <button class="btn btn-primary btn-sm">Post Receipt</button>
+            </div>
+          </div>
+          <div class="receive-form-placeholder">
+            <p style="color:#64748b;padding:24px;text-align:center;">Receiving remainder of overdue PO-2026-0134 · 5 items · $7,840.00 total</p>
+          </div>
+        </div>
+
+      </div><!-- /tab-receiving -->
+
+    </main>
+  </div><!-- /main-wrapper -->
+
+  <script>
+    function showTab(tabId, clickedBtn) {
+      document.querySelectorAll('.tab-panel').forEach(function(panel) {
+        panel.classList.remove('active');
+      });
+      document.querySelectorAll('.tab').forEach(function(tab) {
+        tab.classList.remove('active');
+      });
+      document.getElementById('tab-' + tabId).classList.add('active');
+      clickedBtn.classList.add('active');
+    }
+
+    function toggleReceiveForm(formId) {
+      var form = document.getElementById(formId);
+      if (!form) return;
+      if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        form.style.display = 'none';
+      }
+    }
+  </script>
+
+</body>
+</html>

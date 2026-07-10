@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>G54 Platform · Sign In</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="auth-body">
+
+  <div class="login-wrap">
+
+    <!-- ─── STATE 1: LOGIN ─────────────────────────────────────── -->
+    <div class="login-box">
+      <div class="login-logo">G54 Platform</div>
+      <div class="login-tagline">Great Mountain West · Enterprise Platform</div>
+
+      <form class="login-form" onsubmit="return false;">
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input class="form-input" type="email" id="email" placeholder="you@greatmountainwest.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input class="form-input" type="password" id="password" placeholder="••••••••" />
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Sign In</button>
+        <div class="login-links">
+          <a href="#" class="link">Forgot password?</a>
+        </div>
+      </form>
+
+      <div class="login-divider"><span>or</span></div>
+
+      <div class="sso-buttons">
+        <button class="btn btn-sso">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="sso-icon" />
+          Continue with Microsoft
+        </button>
+        <button class="btn btn-sso">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" class="sso-icon" />
+          Continue with Google
+        </button>
+      </div>
+    </div>
+
+    <!-- ─── WIREFRAME DIVIDER ──────────────────────────────────── -->
+    <div class="wireframe-state-label">Step 2: MFA Verification</div>
+
+    <!-- ─── STATE 2: MFA ───────────────────────────────────────── -->
+    <div class="login-box">
+      <div class="login-logo">G54 Platform</div>
+      <div class="login-tagline">Two-factor authentication</div>
+
+      <p class="mfa-hint">We sent a 6-digit code to <strong>c***@g54.com</strong></p>
+
+      <form class="login-form" onsubmit="return false;">
+        <div class="mfa-inputs">
+          <input class="mfa-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+          <input class="mfa-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+          <input class="mfa-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+          <input class="mfa-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+          <input class="mfa-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+          <input class="mfa-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" />
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Verify</button>
+        <div class="login-links">
+          <a href="#" class="link">Resend code</a>
+        </div>
+      </form>
+    </div>
+
+  </div><!-- /.login-wrap -->
+
+  <script>
+    /* Auto-advance MFA digit boxes */
+    document.querySelectorAll('.mfa-digit').forEach((input, idx, all) => {
+      input.addEventListener('input', () => {
+        if (input.value && idx < all.length - 1) all[idx + 1].focus();
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && idx > 0) all[idx - 1].focus();
+      });
+    });
+  </script>
+</body>
+</html>

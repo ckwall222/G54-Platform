@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G54 Platform — Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="app-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">G54 Platform</div>
+      <div class="client">Great Mountain West</div>
+    </div>
+    <div class="sidebar-section"><a href="index.html" class="active">⊞ Dashboard</a></div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Customer</div>
+      <a href="crm.html">👥 CRM</a>
+      <a href="sales.html">🏷 Sales</a>
+      <a href="ecommerce.html">🛒 eCommerce</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Finance</div>
+      <a href="accounting.html">📒 Accounting</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Operations</div>
+      <a href="inventory.html">📦 Inventory</a>
+      <a href="pos.html">🖥 Point of Sale</a>
+      <a href="jobs.html">🏭 Jobs &amp; Production</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Intelligence</div>
+      <a href="reports.html">📈 Reports</a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">System</div>
+      <a href="admin.html">⚙ Administration</a>
+    </div>
+    <div class="sidebar-footer">CW · Christopher Wall</div>
+  </aside>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="breadcrumb">Dashboard / <b>Executive Overview</b></span>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-icon">🔔<span class="notif-dot"></span></div>
+        <div class="topbar-icon">❓</div>
+        <div class="user-chip">
+          <div class="avatar">CW</div>
+          <span class="user-name">Christopher Wall</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Good morning, Christopher</h1>
+          <p class="page-subtitle">Thursday, July 10, 2026</p>
+        </div>
+        <div class="page-header-actions">
+          <button class="btn btn-secondary">Export Summary</button>
+          <button class="btn btn-primary">+ New Job</button>
+        </div>
+      </div>
+
+      <!-- KPI Grid -->
+      <div class="kpi-grid g8">
+        <div class="kpi-card">
+          <div class="kpi-label">Revenue MTD</div>
+          <div class="kpi-value">$487,320</div>
+          <div class="kpi-trend trend-up">▲ 12% vs last month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Revenue YTD</div>
+          <div class="kpi-value">$3,842,150</div>
+          <div class="kpi-trend trend-up">▲ 8% vs last year</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Gross Margin</div>
+          <div class="kpi-value">38.4%</div>
+          <div class="kpi-trend trend-down">▼ 1.2% vs last month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Cash Balance</div>
+          <div class="kpi-value">$284,750</div>
+          <div class="kpi-trend trend-neutral">— Operating Acct</div>
+        </div>
+        <div class="kpi-card kpi-card--warn">
+          <div class="kpi-label">Open AR</div>
+          <div class="kpi-value">$142,800</div>
+          <div class="kpi-trend trend-down">▼ $32,500 overdue</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Open AP</div>
+          <div class="kpi-value">$67,440</div>
+          <div class="kpi-trend trend-neutral">— 4 invoices pending</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Jobs Active</div>
+          <div class="kpi-value">23</div>
+          <div class="kpi-trend trend-neutral">— Across all stages</div>
+        </div>
+        <div class="kpi-card kpi-card--danger">
+          <div class="kpi-label">Jobs Overdue</div>
+          <div class="kpi-value">3</div>
+          <div class="kpi-trend trend-down">▼ Requires attention</div>
+        </div>
+      </div>
+
+      <!-- Mid Section: 3 columns -->
+      <div class="g3">
+
+        <!-- Revenue Chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Revenue — Last 6 Months</div>
+            <div class="card-actions">
+              <select class="input-sm">
+                <option>Monthly</option>
+                <option>Weekly</option>
+              </select>
+            </div>
+          </div>
+          <div class="chart-placeholder">
+            <div class="chart-bars">
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:52%;background:#3b82f6;"></div>
+                <div class="chart-bar-label">Feb</div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:61%;background:#3b82f6;"></div>
+                <div class="chart-bar-label">Mar</div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:74%;background:#3b82f6;"></div>
+                <div class="chart-bar-label">Apr</div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:68%;background:#3b82f6;"></div>
+                <div class="chart-bar-label">May</div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:80%;background:#3b82f6;"></div>
+                <div class="chart-bar-label">Jun</div>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height:88%;background:#60a5fa;border:2px solid #2563eb;"></div>
+                <div class="chart-bar-label"><b>Jul</b></div>
+              </div>
+            </div>
+            <div class="chart-y-labels">
+              <span>$600k</span>
+              <span>$450k</span>
+              <span>$300k</span>
+              <span>$150k</span>
+              <span>$0</span>
+            </div>
+          </div>
+          <div class="chart-legend">
+            <span class="legend-dot" style="background:#3b82f6;"></span> Monthly Revenue
+          </div>
+        </div>
+
+        <!-- Pipeline Summary -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Pipeline Summary</div>
+            <a href="sales.html" class="card-link">View All →</a>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th class="text-right">Deals</th>
+                <th class="text-right">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="stage-dot" style="background:#94a3b8;"></span> Prospecting</td>
+                <td class="text-right">8</td>
+                <td class="text-right">$124,500</td>
+              </tr>
+              <tr>
+                <td><span class="stage-dot" style="background:#3b82f6;"></span> Proposal Sent</td>
+                <td class="text-right">5</td>
+                <td class="text-right">$287,000</td>
+              </tr>
+              <tr>
+                <td><span class="stage-dot" style="background:#f59e0b;"></span> In Negotiation</td>
+                <td class="text-right">3</td>
+                <td class="text-right">$156,000</td>
+              </tr>
+              <tr class="row-highlight-green">
+                <td><span class="stage-dot" style="background:#22c55e;"></span> Closed Won MTD</td>
+                <td class="text-right"><b>12</b></td>
+                <td class="text-right"><b>$438,000</b></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td><b>Total Pipeline</b></td>
+                <td class="text-right"><b>28</b></td>
+                <td class="text-right"><b>$1,005,500</b></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Production Health -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Production Health</div>
+            <a href="jobs.html" class="card-link">View All →</a>
+          </div>
+          <div class="status-list">
+            <div class="status-row">
+              <div class="status-left">
+                <span class="status-dot" style="background:#f59e0b;"></span>
+                <span class="status-label">Art Review</span>
+              </div>
+              <div class="status-right">
+                <span class="status-count">4 jobs</span>
+                <div class="mini-bar" style="width:40%;background:#f59e0b;"></div>
+              </div>
+            </div>
+            <div class="status-row">
+              <div class="status-left">
+                <span class="status-dot" style="background:#3b82f6;"></span>
+                <span class="status-label">In Press</span>
+              </div>
+              <div class="status-right">
+                <span class="status-count">7 jobs</span>
+                <div class="mini-bar" style="width:70%;background:#3b82f6;"></div>
+              </div>
+            </div>
+            <div class="status-row">
+              <div class="status-left">
+                <span class="status-dot" style="background:#8b5cf6;"></span>
+                <span class="status-label">Finishing</span>
+              </div>
+              <div class="status-right">
+                <span class="status-count">5 jobs</span>
+                <div class="mini-bar" style="width:50%;background:#8b5cf6;"></div>
+              </div>
+            </div>
+            <div class="status-row">
+              <div class="status-left">
+                <span class="status-dot" style="background:#22c55e;"></span>
+                <span class="status-label">Ready to Ship</span>
+              </div>
+              <div class="status-right">
+                <span class="status-count">6 jobs</span>
+                <div class="mini-bar" style="width:60%;background:#22c55e;"></div>
+              </div>
+            </div>
+            <div class="status-row">
+              <div class="status-left">
+                <span class="status-dot" style="background:#ef4444;"></span>
+                <span class="status-label">Overdue</span>
+              </div>
+              <div class="status-right">
+                <span class="status-count" style="color:#ef4444;font-weight:600;">3 jobs</span>
+                <div class="mini-bar" style="width:30%;background:#ef4444;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer-stat">
+            <span>Total Active: <b>25 jobs</b></span>
+            <span>On-Time Rate: <b>88%</b></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Jobs Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recent Jobs</div>
+          <div class="card-actions">
+            <input type="text" class="input-sm" placeholder="Search jobs...">
+            <select class="input-sm">
+              <option>All Statuses</option>
+              <option>In Press</option>
+              <option>Art Review</option>
+              <option>Overdue</option>
+            </select>
+            <a href="jobs.html" class="btn btn-secondary btn-sm">View All Jobs</a>
+            <button class="btn btn-primary btn-sm">+ New Job</button>
+          </div>
+        </div>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Job #</th>
+              <th>Customer</th>
+              <th>Description</th>
+              <th class="text-right">Qty</th>
+              <th>Status</th>
+              <th>Due Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="#" class="link">JOB-2026-0847</a></td>
+              <td>Summit Corp</td>
+              <td>Business Cards 4/Color</td>
+              <td class="text-right">5,000</td>
+              <td><span class="badge badge-blue">In Press</span></td>
+              <td>Jul 14</td>
+              <td><button class="btn-icon" title="View">👁</button> <button class="btn-icon" title="Edit">✏️</button></td>
+            </tr>
+            <tr>
+              <td><a href="#" class="link">JOB-2026-0846</a></td>
+              <td>Alpine Marketing</td>
+              <td>Tri-Fold Brochures</td>
+              <td class="text-right">2,500</td>
+              <td><span class="badge badge-yellow">Art Review</span></td>
+              <td>Jul 15</td>
+              <td><button class="btn-icon" title="View">👁</button> <button class="btn-icon" title="Edit">✏️</button></td>
+            </tr>
+            <tr class="overdue-row">
+              <td><a href="#" class="link">JOB-2026-0845</a></td>
+              <td>Western Media</td>
+              <td>Vinyl Banners</td>
+              <td class="text-right">50</td>
+              <td><span class="badge badge-teal">Ready to Ship</span></td>
+              <td>Jul 11</td>
+              <td><button class="btn-icon" title="View">👁</button> <button class="btn-icon" title="Edit">✏️</button></td>
+            </tr>
+            <tr>
+              <td><a href="#" class="link">JOB-2026-0844</a></td>
+              <td>Pioneer Health</td>
+              <td>EDDM Postcards</td>
+              <td class="text-right">10,000</td>
+              <td><span class="badge badge-purple">Finishing</span></td>
+              <td>Jul 12</td>
+              <td><button class="btn-icon" title="View">👁</button> <button class="btn-icon" title="Edit">✏️</button></td>
+            </tr>
+            <tr class="overdue-row">
+              <td><a href="#" class="link">JOB-2026-0843</a></td>
+              <td>Rocky Mtn Bank</td>
+              <td>Annual Report</td>
+              <td class="text-right">500</td>
+              <td><span class="badge badge-red">OVERDUE</span></td>
+              <td>Jul 9</td>
+              <td><button class="btn-icon" title="View">👁</button> <button class="btn-icon" title="Edit">✏️</button></td>
+            </tr>
+            <tr>
+              <td><a href="#" class="link">JOB-2026-0842</a></td>
+              <td>Front Range Realty</td>
+              <td>Door Hangers</td>
+              <td class="text-right">3,000</td>
+              <td><span class="badge badge-green">Shipped</span></td>
+              <td>Jul 10</td>
+              <td><button class="btn-icon" title="View">👁</button> <button class="btn-icon" title="Edit">✏️</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Bottom Row: AR Aging + Recent Payments -->
+      <div class="g2">
+
+        <!-- AR Aging -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">AR Aging Summary</div>
+            <a href="accounting.html" class="card-link">Full Report →</a>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Aging Bucket</th>
+                <th class="text-right">Amount</th>
+                <th class="text-right">% of Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Current</td>
+                <td class="text-right">$68,200</td>
+                <td class="text-right">47.8%</td>
+              </tr>
+              <tr>
+                <td>1–30 Days</td>
+                <td class="text-right">$42,100</td>
+                <td class="text-right">29.5%</td>
+              </tr>
+              <tr>
+                <td>31–60 Days</td>
+                <td class="text-right" style="color:#f59e0b;">$18,400</td>
+                <td class="text-right">12.9%</td>
+              </tr>
+              <tr>
+                <td>61–90 Days</td>
+                <td class="text-right" style="color:#ef4444;">$9,800</td>
+                <td class="text-right">6.9%</td>
+              </tr>
+              <tr>
+                <td>90+ Days</td>
+                <td class="text-right" style="color:#ef4444;font-weight:600;">$4,300</td>
+                <td class="text-right">3.0%</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td><b>Total AR</b></td>
+                <td class="text-right"><b>$142,800</b></td>
+                <td class="text-right"><b>100%</b></td>
+              </tr>
+            </tfoot>
+          </table>
+          <div class="aging-bar">
+            <div class="aging-segment" style="width:47.8%;background:#22c55e;" title="Current $68,200"></div>
+            <div class="aging-segment" style="width:29.5%;background:#3b82f6;" title="1-30d $42,100"></div>
+            <div class="aging-segment" style="width:12.9%;background:#f59e0b;" title="31-60d $18,400"></div>
+            <div class="aging-segment" style="width:6.9%;background:#f97316;" title="61-90d $9,800"></div>
+            <div class="aging-segment" style="width:3%;background:#ef4444;" title="90+ $4,300"></div>
+          </div>
+        </div>
+
+        <!-- Recent Payments -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent Payments Received</div>
+            <a href="accounting.html" class="card-link">View All →</a>
+          </div>
+          <div class="payment-list">
+            <div class="payment-row">
+              <div class="payment-info">
+                <div class="payment-customer">Summit Corp</div>
+                <div class="payment-meta">Jul 10, 2026 · INV-2026-0412</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$12,450.00</div>
+                <span class="badge badge-blue">ACH</span>
+              </div>
+            </div>
+            <div class="payment-row">
+              <div class="payment-info">
+                <div class="payment-customer">Alpine Marketing Group</div>
+                <div class="payment-meta">Jul 9, 2026 · INV-2026-0408</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$8,320.00</div>
+                <span class="badge badge-green">Check</span>
+              </div>
+            </div>
+            <div class="payment-row">
+              <div class="payment-info">
+                <div class="payment-customer">Pioneer Health Systems</div>
+                <div class="payment-meta">Jul 9, 2026 · INV-2026-0401</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$24,800.00</div>
+                <span class="badge badge-blue">ACH</span>
+              </div>
+            </div>
+            <div class="payment-row">
+              <div class="payment-info">
+                <div class="payment-customer">Front Range Realty</div>
+                <div class="payment-meta">Jul 8, 2026 · INV-2026-0397</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$3,175.00</div>
+                <span class="badge badge-purple">Credit Card</span>
+              </div>
+            </div>
+            <div class="payment-row">
+              <div class="payment-info">
+                <div class="payment-customer">Rocky Mountain Bancorp</div>
+                <div class="payment-meta">Jul 7, 2026 · INV-2026-0389</div>
+              </div>
+              <div class="payment-right">
+                <div class="payment-amount">$41,000.00</div>
+                <span class="badge badge-blue">Wire</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer-stat">
+            <span>Total this week: <b>$89,745.00</b></span>
+          </div>
+        </div>
+
+      </div><!-- /g2 -->
+
+    </main>
+  </div><!-- /main-wrapper -->
+
+</body>
+</html>

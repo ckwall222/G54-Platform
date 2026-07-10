@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Point of Sale — G54 Platform</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* POS-specific overrides — full viewport, no sidebar */
+    body { margin: 0; background: #f0f2f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .pos-wrapper { display: flex; flex-direction: column; height: 100vh; }
+
+    .pos-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #1a1d23; color: #fff; padding: 0 20px; height: 48px;
+      font-size: 14px; flex-shrink: 0;
+    }
+    .pos-topbar a { color: #94a3b8; text-decoration: none; }
+    .pos-topbar a:hover { color: #fff; }
+    .pos-title { font-weight: 700; font-size: 16px; letter-spacing: 0.5px; }
+    .pos-topbar-right { display: flex; align-items: center; gap: 16px; font-size: 13px; color: #94a3b8; }
+
+    .pos-grid { display: flex; flex: 1; overflow: hidden; }
+
+    /* LEFT PANEL */
+    .pos-products { flex: 1.4; display: flex; flex-direction: column; padding: 16px; gap: 12px; overflow: hidden; }
+
+    .pos-search-row { display: flex; gap: 10px; }
+    .pos-search-row input {
+      flex: 1; padding: 9px 14px; border: 1px solid #d1d5db; border-radius: 8px;
+      font-size: 14px; background: #fff;
+    }
+
+    .category-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cat-btn {
+      padding: 6px 14px; border: 1px solid #d1d5db; border-radius: 20px;
+      background: #fff; font-size: 12px; cursor: pointer; white-space: nowrap;
+      font-family: inherit; transition: all 0.15s;
+    }
+    .cat-btn:hover { background: #f1f5f9; }
+    .cat-btn.active { background: #1e40af; color: #fff; border-color: #1e40af; }
+
+    .product-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+      overflow-y: auto; flex: 1;
+    }
+    .product-btn {
+      background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
+      padding: 14px 10px; cursor: pointer; text-align: center;
+      transition: all 0.15s; font-family: inherit; display: flex;
+      flex-direction: column; gap: 4px; align-items: center;
+    }
+    .product-btn:hover { background: #eff6ff; border-color: #3b82f6; box-shadow: 0 2px 8px rgba(59,130,246,0.15); }
+    .product-btn:active { transform: scale(0.97); }
+    .product-cat { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .product-name { font-size: 13px; font-weight: 600; color: #1e293b; line-height: 1.3; }
+    .product-price { font-size: 15px; font-weight: 700; color: #1e40af; margin-top: 4px; }
+
+    /* RIGHT PANEL */
+    .pos-cart {
+      width: 380px; flex-shrink: 0; background: #fff;
+      border-left: 1px solid #e2e8f0; display: flex; flex-direction: column;
+    }
+    .cart-header {
+      padding: 16px 20px 12px; border-bottom: 1px solid #e2e8f0;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cart-header h2 { margin: 0; font-size: 16px; color: #1e293b; }
+    .customer-select {
+      padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 6px;
+      font-size: 13px; color: #374151; width: 160px; font-family: inherit;
+    }
+
+    .cart-items { flex: 1; overflow-y: auto; padding: 12px 20px; display: flex; flex-direction: column; gap: 8px; }
+    .cart-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-size: 13px; font-weight: 600; color: #1e293b; }
+    .cart-item-qty { font-size: 12px; color: #64748b; }
+    .cart-item-price { font-size: 14px; font-weight: 700; color: #1e293b; }
+    .qty-controls { display: flex; align-items: center; gap: 6px; }
+    .qty-btn {
+      width: 26px; height: 26px; border: 1px solid #d1d5db; border-radius: 5px;
+      background: #fff; cursor: pointer; font-size: 14px; display: flex;
+      align-items: center; justify-content: center; font-family: inherit;
+    }
+    .qty-val { font-size: 13px; font-weight: 600; min-width: 20px; text-align: center; }
+
+    .cart-empty-space { flex: 1; }
+
+    .cart-totals { padding: 12px 20px; border-top: 1px solid #e2e8f0; }
+    .totals-row { display: flex; justify-content: space-between; font-size: 13px; color: #64748b; margin-bottom: 6px; }
+    .totals-row.total { font-size: 18px; font-weight: 700; color: #1e293b; margin-top: 8px; border-top: 2px solid #e2e8f0; padding-top: 10px; }
+
+    .payment-section { padding: 12px 20px; border-top: 1px solid #e2e8f0; }
+    .payment-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #94a3b8; margin-bottom: 8px; font-weight: 600; }
+    .payment-methods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+    .pay-method {
+      padding: 10px 4px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+      text-align: center; font-size: 12px; font-weight: 600; cursor: pointer;
+      background: #fff; font-family: inherit; color: #374151;
+    }
+    .pay-method .pay-icon { font-size: 16px; display: block; margin-bottom: 3px; }
+    .pay-method.selected { border-color: #1e40af; background: #eff6ff; color: #1e40af; }
+
+    .charge-btn {
+      width: 100%; padding: 15px; background: #16a34a; color: #fff;
+      border: none; border-radius: 10px; font-size: 18px; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: background 0.15s;
+    }
+    .charge-btn:hover { background: #15803d; }
+    .cart-links { display: flex; justify-content: center; gap: 24px; padding: 10px 20px 16px; }
+    .cart-links a { font-size: 13px; color: #64748b; text-decoration: none; }
+    .cart-links a:hover { color: #1e293b; }
+    .cart-links a.danger { color: #dc2626; }
+    .cart-links a.danger:hover { color: #991b1b; }
+  </style>
+</head>
+<body>
+<div class="pos-wrapper">
+
+  <!-- POS TOP BAR -->
+  <div class="pos-topbar">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <a href="index.html">← Back to Dashboard</a>
+      <span class="pos-title">G54 Platform &mdash; Point of Sale</span>
+    </div>
+    <div class="pos-topbar-right">
+      <span>👤 Christopher Wall</span>
+      <span>📅 Jul 10, 2026 &nbsp;|&nbsp; 10:24 AM</span>
+      <span>🖨 Register 1 — Front Counter</span>
+    </div>
+  </div>
+
+  <!-- MAIN POS GRID -->
+  <div class="pos-grid">
+
+    <!-- LEFT: PRODUCTS -->
+    <div class="pos-products">
+      <div class="pos-search-row">
+        <input type="text" placeholder="🔍  Search products, SKU, or description…">
+      </div>
+
+      <div class="category-filters">
+        <button class="cat-btn active">All</button>
+        <button class="cat-btn">Business Cards</button>
+        <button class="cat-btn">Brochures</button>
+        <button class="cat-btn">Banners</button>
+        <button class="cat-btn">Postcards</button>
+        <button class="cat-btn">Stationery</button>
+        <button class="cat-btn">Signage</button>
+        <button class="cat-btn">Custom</button>
+      </div>
+
+      <div class="product-grid">
+        <button class="product-btn">
+          <span class="product-cat">Business Cards</span>
+          <span class="product-name">Business Cards 500ct</span>
+          <span class="product-price">$45.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Business Cards</span>
+          <span class="product-name">Business Cards 1000ct</span>
+          <span class="product-price">$75.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Brochures</span>
+          <span class="product-name">Tri-Fold Brochure 100ct</span>
+          <span class="product-price">$89.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Brochures</span>
+          <span class="product-name">Flyer 8.5×11 250ct</span>
+          <span class="product-price">$65.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Banners</span>
+          <span class="product-name">Banner 2×4 ft</span>
+          <span class="product-price">$55.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Banners</span>
+          <span class="product-name">Banner 3×6 ft</span>
+          <span class="product-price">$85.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Postcards</span>
+          <span class="product-name">Postcard 4×6 500ct</span>
+          <span class="product-price">$95.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Postcards</span>
+          <span class="product-name">Postcard 6×9 500ct</span>
+          <span class="product-price">$115.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Stationery</span>
+          <span class="product-name">Letterhead 500ct</span>
+          <span class="product-price">$78.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Stationery</span>
+          <span class="product-name">Envelope #10 500ct</span>
+          <span class="product-price">$68.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Signage</span>
+          <span class="product-name">Door Hanger 250ct</span>
+          <span class="product-price">$72.00</span>
+        </button>
+        <button class="product-btn">
+          <span class="product-cat">Signage</span>
+          <span class="product-name">Yard Sign 18×24</span>
+          <span class="product-price">$35.00</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT: CART -->
+    <div class="pos-cart">
+      <div class="cart-header">
+        <h2>Current Sale</h2>
+        <select class="customer-select">
+          <option>— Walk-in Customer —</option>
+          <option>Acme Corporation</option>
+          <option>Sunrise Real Estate</option>
+          <option>Blue Ridge School Dist.</option>
+          <option>Peak Performance Gym</option>
+        </select>
+      </div>
+
+      <div class="cart-items">
+        <!-- Item 1 -->
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-item-name">Business Cards 1000ct</div>
+            <div class="cart-item-qty">$75.00 each</div>
+          </div>
+          <div class="qty-controls">
+            <button class="qty-btn">−</button>
+            <span class="qty-val">2</span>
+            <button class="qty-btn">+</button>
+          </div>
+          <div class="cart-item-price">$150.00</div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-item-name">Tri-Fold Brochure 100ct</div>
+            <div class="cart-item-qty">$89.00 each</div>
+          </div>
+          <div class="qty-controls">
+            <button class="qty-btn">−</button>
+            <span class="qty-val">1</span>
+            <button class="qty-btn">+</button>
+          </div>
+          <div class="cart-item-price">$89.00</div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-item-name">Letterhead 500ct</div>
+            <div class="cart-item-qty">$78.00 each</div>
+          </div>
+          <div class="qty-controls">
+            <button class="qty-btn">−</button>
+            <span class="qty-val">1</span>
+            <button class="qty-btn">+</button>
+          </div>
+          <div class="cart-item-price">$78.00</div>
+        </div>
+      </div>
+
+      <div class="cart-totals">
+        <div class="totals-row"><span>Subtotal</span><span>$317.00</span></div>
+        <div class="totals-row"><span>Tax (8.25%)</span><span>$26.15</span></div>
+        <div class="totals-row total"><span>TOTAL</span><span>$343.15</span></div>
+      </div>
+
+      <div class="payment-section">
+        <div class="payment-label">Payment Method</div>
+        <div class="payment-methods">
+          <button class="pay-method selected">
+            <span class="pay-icon">💳</span>Card
+          </button>
+          <button class="pay-method">
+            <span class="pay-icon">💵</span>Cash
+          </button>
+          <button class="pay-method">
+            <span class="pay-icon">📝</span>Check
+          </button>
+          <button class="pay-method">
+            <span class="pay-icon">🏢</span>On Account
+          </button>
+        </div>
+        <button class="charge-btn">Charge $343.15</button>
+      </div>
+
+      <div class="cart-links">
+        <a href="#">🏷 Discount</a>
+        <a href="#" class="danger">✕ Void Sale</a>
+      </div>
+    </div>
+
+  </div><!-- /.pos-grid -->
+</div><!-- /.pos-wrapper -->
+</body>
+</html>
