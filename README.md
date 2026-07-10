@@ -74,7 +74,7 @@ Link: https://www.figma.com/files/team/1349050049859610789/project/213386079
 ## Project Management
 
 User stories, epics, sprint planning, and client-facing documentation are maintained in **Notion**.  
-Link: *(to be added after Notion workspace creation)*
+Link: https://app.notion.com/p/Project-Overview-399a8cfc9e17807e9976dbd5869ad2a1
 
 ---
 
