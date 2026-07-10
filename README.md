@@ -64,6 +64,26 @@ G54-Platform/
 
 ---
 
+## Live Wireframe Prototype
+
+**https://g54-platform.vercel.app**
+
+All 11 screens are live and interlinked. Share this URL with the client for review.
+
+| Screen | URL |
+|---|---|
+| Dashboard | /index.html |
+| Login / MFA | /auth.html |
+| CRM | /crm.html |
+| Sales | /sales.html |
+| Accounting | /accounting.html |
+| Inventory | /inventory.html |
+| Point of Sale | /pos.html |
+| eCommerce | /ecommerce.html |
+| Jobs & Production | /jobs.html |
+| Reports | /reports.html |
+| Administration | /admin.html |
+
 ## Design Assets
 
 Wireframes, mockups, and interactive prototypes are maintained in **Figma**.  
