@@ -1,5 +1,5 @@
 # Statement of Work
-## Enterprise Resource Platform — Replacement of Sage 100
+## Enterprise Resource Platform — SAP Replacement
 ### Prepared For: Great Mountain West (g54.com)
 ### Prepared By: Christopher Wall
 ### Document Version: 1.0 — Draft
@@ -24,17 +24,26 @@
 
 ## 2. Project Background & Overview
 
-Great Mountain West currently operates on **Sage 100** as its primary business management platform. Following an evaluation of Odoo as a potential replacement — which did not satisfy the depth of financial functionality required — Great Mountain West is commissioning a purpose-built, cloud-native enterprise platform.
+Great Mountain West currently operates on **SAP** as its primary enterprise resource planning platform. Sage 100 serves as an additional feature benchmark for financial functionality. Following an evaluation of Odoo as a potential replacement — which did not satisfy the depth of financial functionality required — Great Mountain West is commissioning a purpose-built, cloud-native enterprise platform that achieves full feature parity with SAP while delivering a modern, accessible user experience.
 
-This platform will consolidate and replace the following operational domains currently managed across disparate tools:
+This platform will consolidate and replace the following operational domains:
 
-- Financial management and accounting (replacing Sage 100)
-- Customer Relationship Management (CRM)
-- eCommerce (customer-facing order entry and management)
-- Inventory and warehouse management
+- Financial accounting (GL, AR, AP, Banking) — SAP FI module parity
+- Controlling — cost center accounting, profit center accounting, profitability analysis (SAP CO/CO-PA parity)
+- Asset accounting — fixed asset register, depreciation schedules (SAP AA parity)
+- Customer Relationship Management (CRM) — SAP SD parity
+- Sales & Distribution — order management, advanced pricing, credit management
+- eCommerce — customer-facing order entry and management
+- Inventory and warehouse management — SAP MM/WM parity
+- Material Requirements Planning (MRP) — automated procurement triggers
 - Point of Sale (POS)
-- Project and job management
+- Project and job management — SAP PS parity
+- Quality management and inspection workflows — SAP QM parity
+- Equipment and plant maintenance — SAP PM parity
 - Accounts Receivable and Accounts Payable workflows
+- Multi-entity and intercompany accounting
+- EDI and electronic invoicing
+- Configurable workflow and approval engine
 
 The resulting system will be a **single, integrated, cloud-hosted platform** accessible via internet browser, designed to meet **PCI DSS** and **SOC 2 Type 2** compliance requirements from the ground up.
 
@@ -42,8 +51,8 @@ The resulting system will be a **single, integrated, cloud-hosted platform** acc
 
 ## 3. Project Objectives
 
-1. Deliver a full-replacement ERP platform purpose-built for Great Mountain West's operational model.
-2. Eliminate dependency on Sage 100 and any associated legacy integrations.
+1. Deliver a full-replacement ERP platform purpose-built for Great Mountain West's operational model with full SAP feature parity.
+2. Eliminate dependency on SAP and any associated legacy integrations. Sage 100 functionality is treated as the minimum baseline; SAP functionality defines the full target feature set.
 3. Provide a secure, compliance-ready platform with end-to-end data security.
 4. Enable role-based access across all departments — Executive, Finance, Sales, Creative/Art, Production, Print, AR, AP, and more.
 5. Build iteratively using Agile sprint methodology, delivering working software at each phase boundary.
@@ -182,63 +191,81 @@ Development phases will be executed using **Agile sprint methodology**, with eac
 - Infrastructure provisioning (hosting, database, CI/CD, environments)
 - Authentication system (SSO, MFA, session management)
 - User and role management
+- Configurable workflow and approval engine
 - Audit logging and activity trails
 - Email notification system
 - Backup and recovery system
 - Admin console
 
-#### Sprint Group B — Financial Suite (Phase 3)
-- General Ledger (chart of accounts, journal entries)
-- Bank reconciliation
-- Accounts Receivable
-- Accounts Payable
-- Invoicing and billing
-- Tax management
-- Financial reporting (P&L, Balance Sheet, Cash Flow)
-- Multi-currency support (if required)
-- Fiscal period management
+#### Sprint Group B — Financial Accounting Suite (Phase 3)
+- General Ledger (chart of accounts, journal entries, period management) — SAP FI parity
+- Bank reconciliation and cash management
+- Accounts Receivable with credit management and exposure limits
+- Accounts Payable with three-way match and payment runs
+- Asset accounting — fixed asset register, depreciation schedules, asset lifecycle — SAP AA parity
+- Tax management (sales tax, use tax, tax reporting)
+- Multi-currency support and foreign currency revaluation
+- Multi-entity and intercompany accounting with eliminations
+- Financial reporting (P&L, Balance Sheet, Cash Flow, consolidations)
+- EDI and electronic invoicing
 
-#### Sprint Group C — CRM & Sales (Phase 4)
+#### Sprint Group C — Controlling & Profitability (Phase 3 continued)
+- Cost center accounting — departmental cost tracking and allocation — SAP CO parity
+- Profit center accounting — entity-level P&L — SAP CO parity
+- Internal orders and budgeting
+- Profitability analysis by customer, product, and channel — SAP CO-PA parity
+- Product costing and standard cost management
+
+#### Sprint Group D — CRM & Sales (Phase 4)
 - Contact and account management
 - Lead and opportunity pipeline
+- Advanced pricing and contract management (pricing conditions, volume discounts, contract pricing)
 - Quote/estimate generation
 - Order entry and management
+- Credit management with customer exposure limits
 - Customer portal
 - Sales reporting and forecasting
+- Document flow — end-to-end traceability from quote through payment
 
-#### Sprint Group D — Inventory, POS & eCommerce (Phase 5)
+#### Sprint Group E — Inventory, Warehouse & MRP (Phase 5)
 - Product catalog management
-- Inventory tracking and valuation
+- Inventory tracking and valuation (FIFO, LIFO, average cost)
+- Batch/lot tracking and serial number management
+- Advanced warehouse management (bin management, putaway strategies, picking optimization)
 - Purchase orders and receiving
-- Warehouse management
+- Material Requirements Planning (MRP) — automated procurement triggers based on job schedule and stock levels
 - Point of Sale terminal
 - eCommerce storefront (customer-facing)
 - Shopping cart and checkout
 - Payment processing (PCI-compliant)
 - Shipping and fulfillment
 
-#### Sprint Group E — Project & Job Management (Phase 6)
-- Job/project creation and tracking
+#### Sprint Group F — Project, Job & Quality Management (Phase 6)
+- Job/project creation and tracking with WBS (Work Breakdown Structure) — SAP PS parity
 - Task and milestone management
 - Resource and time tracking
-- Job costing and profitability
+- Job costing and profitability (actual vs. estimate)
 - Proofing and approval workflow (Art/Design use case)
 - Production scheduling
+- Quality management — inspection plans, quality notifications, defect tracking — SAP QM parity
+- Equipment and plant maintenance — press maintenance scheduling, downtime tracking, work orders — SAP PM parity
 
-#### Sprint Group F — Reporting & Analytics (Phase 7)
+#### Sprint Group G — Reporting & Analytics (Phase 7)
 - Executive dashboard
-- Department-level dashboards
+- Department-level dashboards (Finance, Sales, Production, Operations)
 - Custom report builder
 - Scheduled report delivery
 - Export (PDF, Excel, CSV)
 - KPI and metric tracking
+- Profitability analysis reporting
 
-#### Sprint Group G — Compliance, Security & Launch (Phase 8)
+#### Sprint Group H — Compliance, Security & Launch (Phase 8)
 - PCI DSS audit and remediation
 - SOC 2 Type 2 control implementation and evidence collection
 - Penetration testing
 - Performance testing and optimization
 - Disaster recovery drill
+- SAP data migration assessment and execution
 - Production launch
 - User training and documentation
 - Hypercare support period (30 days post-launch)

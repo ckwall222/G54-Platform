@@ -1361,5 +1361,256 @@ AC-142-4: Admin can force terminate the suspicious session from the alert notifi
 
 ---
 
-*End of Phase 1 Discovery Documentation — v1.0 Initial Draft*
+---
+
+## 11. SAP Feature Parity — Additional Epics & User Stories {#sap-parity}
+
+> **Scope Clarification (July 2026):** Great Mountain West is replacing **SAP** as its primary ERP. Sage 100 defines the minimum feature baseline. SAP defines the full target feature set. All SAP module equivalents listed below must be represented in the platform.
+
+---
+
+### SAP Module Mapping
+
+| SAP Module | Description | Platform Equivalent |
+|---|---|---|
+| FI — Financial Accounting | GL, AR, AP, Bank Accounting, Asset Accounting | Accounting Suite (existing + Asset Accounting) |
+| CO — Controlling | Cost Center, Profit Center, Internal Orders | Controlling & Profitability module (new) |
+| CO-PA — Profitability Analysis | Margin analysis by customer/product/channel | Profitability Analysis module (new) |
+| AA — Asset Accounting | Fixed asset register, depreciation | Asset Accounting module (new) |
+| SD — Sales & Distribution | Pricing, credit management, document flow | CRM & Sales (expanded) |
+| MM — Materials Management | Purchasing, receiving, inventory, MRP | Inventory & MRP (expanded) |
+| WM — Warehouse Management | Bin management, putaway, picking | Advanced Warehouse module (new) |
+| PP — Production Planning | MRP, shop floor control, capacity planning | MRP + Production (new) |
+| PS — Project System | WBS, project costing, milestones | Job Management (expanded) |
+| QM — Quality Management | Inspection plans, defect tracking, notifications | Quality Management module (new) |
+| PM — Plant Maintenance | Equipment maintenance, work orders, downtime | Equipment Maintenance module (new) |
+| FI-AA — Fixed Assets | Asset lifecycle, depreciation methods | Asset Accounting module (new) |
+
+---
+
+### Additional Personas
+
+---
+
+#### Persona: Controller / CFO
+**Role Examples:** Controller, CFO, VP Finance
+
+**Goals:**
+- Full visibility into cost center and profit center performance
+- Manage intercompany transactions and consolidations
+- Analyze profitability by customer, product line, and channel
+- Maintain fixed asset register and depreciation schedules
+
+**Key Permissions Needed:**
+- Full access to Controlling, CO-PA, and Asset Accounting modules
+- All Finance Manager permissions
+- Intercompany transaction management
+- Consolidation reporting
+
+---
+
+#### Persona: Cost Accountant
+**Role Examples:** Cost Accountant, Management Accountant
+
+**Goals:**
+- Maintain standard costs and analyze variances
+- Allocate costs across cost centers
+- Produce job costing reports (actual vs. standard vs. estimate)
+- Support month-end controlling close
+
+**Key Permissions Needed:**
+- Full access to Controlling module
+- Read access to Production and Inventory
+- Cost center allocation management
+
+---
+
+#### Persona: Equipment / Maintenance Manager
+**Role Examples:** Facilities Manager, Maintenance Supervisor, Press Room Manager
+
+**Goals:**
+- Schedule and track maintenance for all press and finishing equipment
+- Record downtime and calculate press utilization
+- Manage maintenance work orders and parts inventory
+
+**Key Permissions Needed:**
+- Full access to Equipment Maintenance module
+- Read access to Production Schedule
+- View inventory of maintenance parts and supplies
+
+---
+
+### Additional Epics (EPIC-23 through EPIC-35)
+
+**EPIC-23: Asset Accounting & Fixed Asset Management**
+Maintain a complete fixed asset register covering all press equipment, finishing equipment, vehicles, and property. Calculate and post depreciation automatically on defined schedules. Support asset additions, disposals, transfers, and revaluations. SAP FI-AA parity.
+
+**EPIC-24: Cost Center & Profit Center Accounting**
+Track costs by department and cost center. Allocate shared costs using configurable distribution rules. Produce cost center P&L reports and variance analysis. SAP CO parity.
+
+**EPIC-25: Profitability Analysis (CO-PA)**
+Analyze gross and net margin by customer, product, product category, sales channel, and region. Support actual and plan/budget comparison. Drill from summary to transaction level. SAP CO-PA parity.
+
+**EPIC-26: Internal Orders & Budget Management**
+Create internal orders for capital projects, marketing spend, or one-time cost tracking. Assign budgets, track actuals, and report variances. Close and settle orders to cost centers or assets.
+
+**EPIC-27: Material Requirements Planning (MRP)**
+Calculate material requirements based on job schedule and open orders. Generate planned purchase orders automatically. Manage MRP runs by planning horizon and material group. Identify shortages before production starts. SAP PP/MRP parity.
+
+**EPIC-28: Advanced Pricing & Contract Management**
+Support complex pricing conditions: base price, volume discounts, customer-specific pricing, contract pricing, surcharges, and freight. Maintain customer price agreements and contracts with validity periods. SAP SD pricing condition parity.
+
+**EPIC-29: Credit Management**
+Define customer credit limits. Calculate real-time credit exposure including open orders, open invoices, and deliveries. Block or warn on orders that breach credit limits. Escalation workflow for credit hold override.
+
+**EPIC-30: Quality Management**
+Define inspection plans for incoming materials and finished goods. Record inspection results and defects. Manage quality notifications and corrective actions. Integration with production and receiving workflows. SAP QM parity.
+
+**EPIC-31: Equipment & Plant Maintenance**
+Maintain an equipment master for all presses and finishing equipment. Schedule preventive maintenance. Record corrective maintenance work orders with labor, parts, and downtime. Track press utilization and maintenance cost per machine. SAP PM parity.
+
+**EPIC-32: Multi-Entity & Intercompany Accounting**
+Support multiple legal entities or business units under one platform instance. Post intercompany transactions with automatic elimination entries. Produce consolidated financial statements. Manage intercompany billing and reconciliation.
+
+**EPIC-33: Document Flow & End-to-End Traceability**
+Every transaction is linked in a complete document chain: Quote → Order → Production Job → Delivery → Invoice → Payment. Every document references its predecessors and successors. Full audit trail visible from any point in the chain. SAP document flow parity.
+
+**EPIC-34: EDI & Electronic Invoicing**
+Send and receive electronic documents (purchase orders, invoices, shipping notices) in standard EDI formats (X12, EDIFACT) or API-based formats. Support e-invoicing mandates and customer-specific EDI requirements.
+
+**EPIC-35: Configurable Workflow & Approval Engine**
+Define multi-step approval workflows for any document type (invoices, purchase orders, credit holds, journal entries, quotes). Configure approvers by role, amount threshold, cost center, or department. Delegations and escalations on timeout.
+
+---
+
+### Additional User Stories — SAP Parity
+
+---
+
+**US-200 — Asset Accounting**
+As a Finance Manager, I want to add a new press to the fixed asset register with acquisition cost, useful life, and depreciation method, so that depreciation is calculated and posted automatically each period.
+
+AC-200-1: Asset master includes: asset number, description, category, acquisition date, cost, useful life, depreciation method (straight-line, declining balance).
+AC-200-2: Depreciation posts to GL automatically on period close.
+AC-200-3: Asset register report shows net book value, accumulated depreciation, and remaining useful life per asset.
+AC-200-4: Asset disposals and transfers are recorded with gain/loss posting.
+
+---
+
+**US-201 — Cost Center Accounting**
+As a Controller, I want to view a cost center report showing actual spend vs. budget for each department this month, so that I can identify and address overspending before period close.
+
+AC-201-1: Cost center report shows: cost center, cost element, budget, actual, variance ($ and %).
+AC-201-2: Report is available in real time (not batch).
+AC-201-3: Drill-down from cost center total to individual postings.
+AC-201-4: Report exportable to Excel.
+
+---
+
+**US-202 — Cost Allocation**
+As a Cost Accountant, I want to allocate shared costs (facilities, IT, utilities) to production cost centers using a configured distribution key, so that departmental P&Ls reflect true cost of operations.
+
+AC-202-1: Allocation rules configurable by: sender cost center, receiver cost centers, distribution basis (headcount, square footage, revenue, manual %).
+AC-202-2: Allocations run on a scheduled basis (monthly) or on demand.
+AC-202-3: Allocation postings are reversible for correction.
+AC-202-4: Allocation log shows sender, receiver, basis, and amount for each cycle.
+
+---
+
+**US-203 — Profitability Analysis**
+As a Controller, I want to see gross margin by customer and by product category for the current quarter, so that I can identify which customers and products are driving profitability.
+
+AC-203-1: CO-PA report shows: revenue, cost of goods, gross margin, gross margin % — sliceable by customer, product category, sales rep, and channel.
+AC-203-2: Plan vs. actual comparison available.
+AC-203-3: Drill-down from summary to underlying sales orders and cost postings.
+AC-203-4: Top 10 / Bottom 10 customers by margin available as a standard view.
+
+---
+
+**US-204 — Material Requirements Planning**
+As a Warehouse Manager, I want the system to automatically calculate what paper, ink, and substrate I need to order based on the production schedule for the next two weeks, so that I never run short mid-job.
+
+AC-204-1: MRP calculates net requirements by material based on confirmed job schedule and current stock levels.
+AC-204-2: MRP generates planned purchase orders for each shortage.
+AC-204-3: Planner can review, modify, and release planned POs before they are sent to vendors.
+AC-204-4: MRP run is configurable by planning horizon (days) and material group.
+AC-204-5: Shortage report shows material, job, quantity needed, quantity available, and gap.
+
+---
+
+**US-205 — Advanced Pricing**
+As a Sales Manager, I want to configure a customer-specific pricing agreement for a key account that applies volume discounts and contract pricing automatically when a quote is created, so that reps don't have to manually calculate or remember special terms.
+
+AC-205-1: Pricing agreements configurable by: customer, product, validity period, price type (fixed, discount %, surcharge).
+AC-205-2: Pricing conditions apply automatically when a quote is created for the qualifying customer.
+AC-205-3: Multiple conditions can stack (base price → volume discount → freight surcharge).
+AC-205-4: Price agreement expiry is alerted to Sales Manager 30 days before expiration.
+
+---
+
+**US-206 — Credit Management**
+As a Finance Manager, I want to define a credit limit for each customer and have the system block or warn on orders that would breach that limit, so that we do not extend credit beyond approved exposure.
+
+AC-206-1: Credit limit defined per customer in AR/Credit Management module.
+AC-206-2: Real-time credit exposure calculated as: open invoices + open orders + open deliveries.
+AC-206-3: Order entry warns (soft block) or prevents (hard block) when exposure would breach limit — configurable per customer.
+AC-206-4: Credit hold override requires Finance Manager or Sales Manager approval with audit log entry.
+AC-206-5: Credit exposure report shows all customers near or over limit.
+
+---
+
+**US-207 — Quality Inspection**
+As a Warehouse Manager, I want to trigger a quality inspection when goods are received against a purchase order for paper stock, so that substandard material is identified before it goes to production.
+
+AC-207-1: Inspection lot created automatically on receipt for materials requiring inspection.
+AC-207-2: Inspector records: inspection results, sample size, defects found, pass/fail decision.
+AC-207-3: Failed inspection prevents material from being released to production (stock blocked).
+AC-207-4: Quality notification created automatically on failure, routed to Purchasing for vendor follow-up.
+
+---
+
+**US-208 — Equipment Maintenance**
+As an Equipment Maintenance Manager, I want to schedule preventive maintenance for each press on a defined interval (e.g., every 500 press hours or every 90 days), so that maintenance never gets missed and equipment downtime is minimized.
+
+AC-208-1: Equipment master stores: machine name, model, serial number, location, manufacturer, purchase date, warranty expiry.
+AC-208-2: Maintenance plans configurable by: interval type (time-based, counter-based), maintenance tasks, estimated duration, required parts.
+AC-208-3: System generates maintenance work orders automatically when interval is due.
+AC-208-4: Work order records: actual labor, parts used, downtime start/end, technician.
+AC-208-5: Equipment history report shows all maintenance events, downtime, and cost per machine.
+
+---
+
+**US-209 — Intercompany Accounting**
+As a Controller, I want to post an intercompany charge from one business entity to another and have the elimination entry created automatically, so that consolidated financial statements are accurate without manual adjustments.
+
+AC-209-1: Intercompany transactions require both a sending and receiving entity.
+AC-209-2: Corresponding entry created automatically in the receiving entity's ledger.
+AC-209-3: Intercompany balances are highlighted in the consolidation report for review.
+AC-209-4: Elimination entries generated automatically on consolidation run.
+
+---
+
+**US-210 — Document Flow**
+As a Customer Service Representative, I want to view the complete document chain for any customer order — from the original quote through production job, delivery, invoice, and payment — in a single linked view, so that I can answer any customer inquiry without navigating multiple modules.
+
+AC-210-1: Document flow view shows all linked documents in chronological chain.
+AC-210-2: Each document in the chain is clickable to open the source record.
+AC-210-3: Document flow available from any point in the chain (open the quote or the invoice — same view).
+AC-210-4: Status of each document shown inline (open, completed, cancelled).
+
+---
+
+**US-211 — Configurable Approval Workflow**
+As an IT Administrator, I want to configure a multi-step approval workflow for vendor invoices above $10,000 that routes to the AP Clerk's manager and then to the Controller, so that high-value payments are always reviewed before processing.
+
+AC-211-1: Workflow rules configurable by: document type, amount threshold, cost center, department.
+AC-211-2: Approver defined by role, named user, or dynamic (manager of submitter).
+AC-211-3: Each approver receives email and in-app notification.
+AC-211-4: Timeout escalation configurable (e.g., escalate to next level after 48 hours with no action).
+AC-211-5: Approval history with timestamps and comments recorded on every document.
+AC-211-6: Delegation rules configurable for out-of-office coverage.
+
+---
+
+*End of Phase 1 Discovery Documentation — v1.1 (Updated July 2026 — SAP parity scope added)*
 *Great Mountain West / Christopher Wall — Confidential*
